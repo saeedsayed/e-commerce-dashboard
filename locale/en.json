@@ -1,5 +1,28 @@
 {
+  "Layout": {
+    "title": "E-Commerce Dashboard",
+    "description": "Manage your store with analytics and admin tools"
+  },
   "HomePage": {
-    "title": "Hello world!"
+    "title": "Welcome to the dashboard"
+  },
+  "auth": {
+    "login_successful": "Login successfully",
+    "welcome_back": "Welcome back",
+    "layout_subtitle": "Manage products, orders and customers from one place.",
+    "feature_secure_sign_in": "Secure sign-in",
+    "feature_fast_setup": "Fast setup",
+    "feature_insights_reports": "Insights & reports",
+    "brand_name": "E-Shop",
+    "sign_in_title": "Sign in to your account",
+    "sign_in_subtitle": "Enter your credentials to access the dashboard",
+    "email_label": "Email",
+    "email_placeholder": "you@example.com",
+    "password_label": "Password",
+    "password_placeholder": "Your password",
+    "forgot": "Forgot?",
+    "remember_me": "Remember me",
+    "signing_in": "Signing in...",
+    "sign_in": "Sign in"
   }
 }

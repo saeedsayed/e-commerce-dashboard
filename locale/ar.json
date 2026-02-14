@@ -1,5 +1,28 @@
 {
+  "Layout": {
+    "title": "\u0644\u0648\u062d\u0629 \u062a\u062d\u0643\u0645 \u0627\u0644\u062a\u062c\u0627\u0631\u0629 \u0627\u0644\u0625\u0644\u0643\u062a\u0631\u0648\u0646\u064a\u0629",
+    "description": "\u0623\u062f\u0631 \u0645\u062a\u062c\u0631\u0643 \u0628\u0623\u062f\u0648\u0627\u062a \u0627\u0644\u062a\u062d\u0644\u064a\u0644 \u0648\u0627\u0644\u0625\u062f\u0627\u0631\u0629"
+  },
   "HomePage": {
-    "title": "مرحبا بالعالم"
+    "title": "\u0645\u0631\u062d\u0628\u0627 \u0628\u0643 \u0641\u064a \u0644\u0648\u062d\u0629 \u0627\u0644\u062a\u062d\u0643\u0645"
+  },
+  "auth": {
+    "login_successful": "تم تسجيل الدخول بنجاح",
+    "welcome_back": "مرحبًا بعودتك",
+    "layout_subtitle": "قم بإدارة المنتجات والطلبات والعملاء من مكان واحد.",
+    "feature_secure_sign_in": "تسجيل دخول آمن",
+    "feature_fast_setup": "إعداد سريع",
+    "feature_insights_reports": "إحصائيات وتقارير",
+    "brand_name": "إي-شوب",
+    "sign_in_title": "سجّل الدخول إلى حسابك",
+    "sign_in_subtitle": "أدخل بياناتك للوصول إلى لوحة التحكم",
+    "email_label": "البريد الإلكتروني",
+    "email_placeholder": "you@example.com",
+    "password_label": "كلمة المرور",
+    "password_placeholder": "كلمة المرور الخاصة بك",
+    "forgot": "نسيت؟",
+    "remember_me": "تذكرني",
+    "signing_in": "جارٍ تسجيل الدخول...",
+    "sign_in": "تسجيل الدخول"
   }
 }
