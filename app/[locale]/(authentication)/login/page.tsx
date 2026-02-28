@@ -13,7 +13,7 @@ import { useAuthContext } from "@/context/authProvider";
 import { useRouter } from "@/i18n/navigation";
 
 export default function LoginPage() {
-  const t = useTranslations("auth");
+  const t = useTranslations("Auth");
   const router = useRouter();
   const locale = useLocale();
   const { loginFn } = useAuthContext();

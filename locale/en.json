@@ -3,10 +3,28 @@
     "title": "E-Commerce Dashboard",
     "description": "Manage your store with analytics and admin tools"
   },
+  "Nav": {
+    "toggle_theme": "Toggle theme",
+    "toggle_language": "Toggle language"
+  },
+  "Sidebar": {
+    "products": "Products",
+    "blogs": "Blogs",
+    "categories": "Categories",
+    "orders": "Orders",
+    "customers": "Customers",
+    "media_library":"Media Library",
+    "statistics": "Statistics",
+    "settings": "Settings"
+  },
+  "Footer": {
+    "rights_reserved": "All rights reserved.",
+    "copyright": "Copyright E-Shop."
+  },
   "HomePage": {
     "title": "Welcome to the dashboard"
   },
-  "auth": {
+  "Auth": {
     "login_successful": "Login successfully",
     "welcome_back": "Welcome back",
     "layout_subtitle": "Manage products, orders and customers from one place.",

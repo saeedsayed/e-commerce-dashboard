@@ -7,7 +7,7 @@ const ThemeAndLangButton = () => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const t = useTranslations("nav");
+  const t = useTranslations("Nav");
 
   const changeLanguage = (newLocale: "en" | "ar") => {
     router.replace(pathname, { locale: newLocale });

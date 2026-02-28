@@ -6,7 +6,7 @@ import { ICart } from "./cart.type";
 import { IShippingMethod } from "./shippingMethod.type";
 import { ICoupon } from "./coupon.type";
 import { IOrder } from "./order";
-import { IAddress } from "./address.type"
+import { IAddress } from "./address.type";
 
 export type { IReviews };
 export type { ICoupon };
@@ -17,4 +17,6 @@ export type { IProduct };
 export type { IShippingMethod };
 export type { IArticle };
 export type { IOrder };
-export type { IAddress }
+export type { IAddress };
+export type { IPagination } from "./pagination.type";
+export type { IFile, IFolder, IFolderWithFiles } from "./mediaLibrary.type";

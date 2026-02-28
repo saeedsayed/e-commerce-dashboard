@@ -9,7 +9,7 @@ type Props = {
 
 export default async function AuthLayout({ children }: Props) {
   const locale = await getLocale();
-  const t = await getTranslations("auth");
+  const t = await getTranslations("Auth");
 
   return (
     <div
