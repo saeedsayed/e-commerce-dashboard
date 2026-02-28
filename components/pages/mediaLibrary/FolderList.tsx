@@ -34,7 +34,7 @@ const FolderList = () => {
       refetch();
       setIsDelModOpen(false);
     },
-    onError: (err: AxiosError) => {
+    onError: (err: AxiosError<{ message: string }>) => {
       const errMessage =
         err.response?.data?.message || "filed to delete folder! try again";
       toast.error(errMessage);

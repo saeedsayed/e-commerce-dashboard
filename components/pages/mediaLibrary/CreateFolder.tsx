@@ -30,7 +30,7 @@ const CreateFolder = () => {
       queryClient.invalidateQueries({ queryKey: ["folder-list"] });
       setFolderName("");
     },
-    onError: (err: AxiosError) => {
+    onError: (err: AxiosError<{ message: string }>) => {
       const errMessage =
         err.response?.data?.message || "Folder create field! try again";
       setIsCreateFolderModalOpen(false);
