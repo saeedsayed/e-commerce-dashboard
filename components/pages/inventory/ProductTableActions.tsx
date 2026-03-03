@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Edit, Trash } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import EditProduct from "./EditProduct";
 
 const ProductTableActions = ({ productId }: { productId: string }) => {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
@@ -32,14 +33,7 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
         >
           Delete <Trash className="size-4" />
         </button>
-        <button
-          className="btn btn-xs btn-info text-base-content"
-          onClick={() => {
-            toast.error("feature not working yet");
-          }}
-        >
-          Edit <Edit className="size-4" />
-        </button>
+        <EditProduct productId={productId} />
       </div>
       <Modal
         isOpen={deleteModalIsOpen}

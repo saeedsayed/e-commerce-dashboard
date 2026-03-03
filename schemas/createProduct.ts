@@ -7,12 +7,15 @@ export const createProductSchema = Z.object({
   description: Z.string("description is required")
     .min(10, "description must be at least 10 characters")
     .max(1000),
-  price: Z.number("price is required and must be a positive number").min(
+  price: Z.number("price is required and must be a non-negative number").min(
     0.1,
     "price must be at least 0.1",
   ),
   thumbnail: Z.string("thumbnail is required").url("thumbnail is required"),
-  category: Z.array(Z.string(),"at least one category is required").min(1, "at least one category is required"),
+  category: Z.array(Z.string(), "at least one category is required").min(
+    1,
+    "at least one category is required",
+  ),
   stock: Z.number("stock is required and must be a non-negative number").min(
     0,
     "stock must be at least 0",

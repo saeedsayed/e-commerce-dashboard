@@ -2,23 +2,18 @@
 
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import CreateProductForm from "./CreateProductForm";
-import { useForm } from "react-hook-form";
-import {
-  createProductSchema,
-  TCreateProductForm,
-} from "@/schemas/createProduct";
+import CreateProductForm from "./ProductForm";
+import { TCreateProductForm } from "@/schemas/createProduct";
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import Modal from "@/components/common/Modal";
 
 const CreateProduct = () => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
-  const formController = useForm({
-    resolver: zodResolver(createProductSchema),
-  });
+
   const createProduct = async (data: TCreateProductForm) => {
     await axiosInstance.post("/products", data);
   };
@@ -28,7 +23,6 @@ const CreateProduct = () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Product created successfully");
       setModalIsOpen(false);
-      formController.reset();
     },
     onError: (err) => {
       console.log("err", err);
@@ -40,13 +34,23 @@ const CreateProduct = () => {
       <button className="btn btn-primary" onClick={() => setModalIsOpen(true)}>
         Create Product <Plus />
       </button>
-      <CreateProductForm
-        modalIsOpen={modalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-        onSubmit={(data) => mutate(data)}
-        isSubmitting={isPending}
-        formController={formController}
-      />
+      <Modal
+        isOpen={modalIsOpen}
+        onCancel={() => {
+          setModalIsOpen(false);
+        }}
+        onConfirm={() => {}}
+        title="Create a new product"
+        formId="createProductForm"
+        classes="w-md"
+        confirmText={isPending ? "Creating..." : "Create"}
+      >
+        <CreateProductForm
+          onSubmit={(data) => mutate(data)}
+          isSubmitting={isPending}
+          formId="createProductForm"
+        />
+      </Modal>
     </>
   );
 };
