@@ -63,8 +63,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
               src={image}
               alt={`${alt} ${index + 1}`}
               className="w-full h-full object-contain"
-              width={1000}
-              height={1000}
+              fill
             />
           </SwiperSlide>
         ))}
@@ -86,8 +85,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
                 src={image}
                 alt={`${alt} thumbnail ${index + 1}`}
                 className="w-full h-24 object-cover rounded cursor-pointer opacity-60 hover:opacity-100 transition-opacity"
-                width={100}
-                height={100}
+                fill
               />
             </SwiperSlide>
           ))}

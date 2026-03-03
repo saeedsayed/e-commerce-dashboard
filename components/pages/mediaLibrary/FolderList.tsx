@@ -1,16 +1,19 @@
 "use client";
-import { Link } from "@/i18n/navigation";
 import { IFolder } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
-import CreateFolder from "./CreateFolder";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Folder, Trash } from "lucide-react";
+import { Folder, FolderPen, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import Modal from "@/components/common/Modal";
 
-const FolderList = () => {
+type props = {
+  onSelectFolder: (folder: IFolder) => void;
+  selectedFolder: IFolder | null;
+};
+
+const FolderList = ({ onSelectFolder, selectedFolder }: props) => {
   const [isDelModOpen, setIsDelModOpen] = useState<boolean>(false);
   const [targetDelFolder, setTargetDelFolder] = useState<string>("");
   const { data, isLoading, isRefetching, refetch } = useQuery({
@@ -50,13 +53,32 @@ const FolderList = () => {
       </>
     );
   return (
-    <section>
-      <CreateFolder />
-      <ul className="p-8 flex flex-wrap gap-4 lg:gap-8 justify-start items-center">
+    <section className="h-full overflow-auto pe-4">
+      <ul className="list">
         {data?.map((folder) => (
-          <li key={folder._id} className="relative group">
+          <li
+            className={`list-row -me-4 px-4 rounded-none gap-1 flex ${selectedFolder?._id === folder._id ? "bg-base-300" : ""}`}
+            key={folder._id}
+          >
             <button
-              className="btn btn-error rounded-2xl absolute z-0 top-3 start-2 p-0 h-23 w-12 justify-start group-hover:-start-5 transition-all"
+              onClick={() => {
+                onSelectFolder(folder);
+              }}
+              className="flex gap-1 items-center flex-1 cursor-pointer"
+            >
+              <div>
+                <Folder className="size-10 lg:size-10 fill-warning text-warning" />
+              </div>
+              <div>
+                <div>{folder.folderTitle}</div>
+                <div className="text-xs uppercase font-semibold opacity-60">
+                  items: 0
+                </div>
+              </div>
+            </button>
+            <button
+              className="btn btn-square btn-ghost tooltip tooltip-bottom tooltip-error text-error"
+              data-tip="Delete"
               onClick={() => {
                 setIsDelModOpen(true);
                 setTargetDelFolder(folder._id);
@@ -64,22 +86,24 @@ const FolderList = () => {
             >
               <Trash />
             </button>
-            <Link href={`/media-library/${folder._id}`}>
-              <Folder className="size-18 lg:size-30 fill-warning text-warning z-10 relative" />
-              <p className="text-lg lg:text-2xl text-center opacity-70">
-                {folder.folderTitle}
-              </p>
-            </Link>
+            <button
+              className="btn btn-square btn-ghost tooltip tooltip-info tooltip-bottom"
+              data-tip="Rename"
+            >
+              <FolderPen />
+            </button>
           </li>
         ))}
         {isRefetching && <div className="loading loading-spinner size-16" />}
       </ul>
       <Modal
         isOpen={isDelModOpen}
-        message="Are You sure to delete this folder and any data inside it! this action can't restore"
+        message="Are you absolutely certain you want to permanently remove this folder and everything inside it? Once deleted, this action cannot be reversed."
         confirmText={isPending ? "Deleting..." : "Delete"}
         onCancel={() => setIsDelModOpen(false)}
         onConfirm={() => deleteDirector(targetDelFolder)}
+        variant="danger"
+        classes="max-w-md"
       />
     </section>
   );

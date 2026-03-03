@@ -1,7 +1,7 @@
-import FolderList from "@/components/pages/mediaLibrary/FolderList";
+import MediaLibrary from "@/components/pages/mediaLibrary/MediaLibrary";
 
 const page = () => {
-  return <FolderList />;
+  return <MediaLibrary />;
 };
 
 export default page;

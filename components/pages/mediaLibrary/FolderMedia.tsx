@@ -12,9 +12,11 @@ import Modal from "@/components/common/Modal";
 
 type Props = {
   folderId: string;
+  onSelectFile?: (files: IFile[]) => void;
+  selectMode?: "multiple" | "single";
 };
 
-const FolderMedia = ({ folderId }: Props) => {
+const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
   const [selectedFiles, setSelectedFiles] = useState<IFile[]>([]);
   const [imagePreviewUrl, setImagePreviewURL] = useState<string | null>(null);
   const [isDelModOpen, setIsDelModOpen] = useState<boolean>(false);
@@ -29,6 +31,17 @@ const FolderMedia = ({ folderId }: Props) => {
     },
   });
 
+  const handleSelect = (files: IFile[]) => {
+    if (
+      selectMode === "single" &&
+      selectedFiles.length === 1 &&
+      files.length > 1
+    )
+      return toast.error("you can't select more then one file");
+    setSelectedFiles(files);
+    onSelectFile?.(files);
+  };
+
   const deleteMedia = async () => {
     await axiosInstance.delete(`/media-library/folders/${folderId}/files`, {
       data: {
@@ -40,7 +53,7 @@ const FolderMedia = ({ folderId }: Props) => {
     mutationFn: deleteMedia,
     onSuccess: () => {
       refetch();
-      setSelectedFiles([]);
+      handleSelect([]);
       setIsDelModOpen(false);
       toast.success("deleted files successfully");
     },
@@ -90,16 +103,16 @@ const FolderMedia = ({ folderId }: Props) => {
               checked={selectedFiles.length === data?.files.length}
               onChange={(e) => {
                 if (e.target.checked) {
-                  setSelectedFiles(data?.files || []);
+                  handleSelect(data?.files || []);
                 } else {
-                  setSelectedFiles([]);
+                  handleSelect([]);
                 }
               }}
             />
           </label>
         </div>
       </div>
-      <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <section className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {data?.files.map((file) => (
           <div
             key={file._id}
@@ -113,9 +126,9 @@ const FolderMedia = ({ folderId }: Props) => {
                 checked={selectedFiles.some((f) => f._id === file._id)}
                 onChange={(e) => {
                   if (e.target.checked) {
-                    setSelectedFiles([...selectedFiles, file]);
+                    handleSelect([...selectedFiles, file]);
                   } else {
-                    setSelectedFiles(
+                    handleSelect(
                       selectedFiles.filter((f) => f._id !== file._id),
                     );
                   }

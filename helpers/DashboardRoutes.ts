@@ -23,8 +23,8 @@ export const DashboardRoutes = [
     icon: Home,
   },
   {
-    localKey: "products",
-    path: "/products",
+    localKey: "inventory",
+    path: "/inventory",
     icon: Package,
   },
   {

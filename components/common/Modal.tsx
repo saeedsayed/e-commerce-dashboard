@@ -20,6 +20,8 @@ export interface ModalProps {
   variant?: "warning" | "info" | "success" | "danger";
   /** show “×” in the corner */
   showCloseButton?: boolean;
+  formId?: string;
+  classes?: string;
 }
 
 const variantClasses: Record<
@@ -43,6 +45,8 @@ const Modal: FC<ModalProps> = ({
   onCancel = () => {},
   variant = "info",
   showCloseButton = true,
+  formId,
+  classes,
 }) => {
   if (!isOpen) return null;
 
@@ -54,7 +58,9 @@ const Modal: FC<ModalProps> = ({
         onClick={onCancel}
       />
       {/* modal panel */}
-      <div className="bg-base-100 rounded-lg shadow-lg max-w-md w-full z-10 overflow-hidden">
+      <div
+        className={`bg-base-100 rounded-lg shadow-lg z-10 overflow-hidden ${classes}`}
+      >
         {title && (
           <div
             className={`flex items-center justify-between px-4 py-2 border-b ${variantClasses[variant]}`}
@@ -66,7 +72,7 @@ const Modal: FC<ModalProps> = ({
                 className="text-error-content text-2xl leading-none cursor-pointer"
                 aria-label="close"
               >
-                <X/>
+                <X />
               </button>
             )}
           </div>
@@ -87,6 +93,7 @@ const Modal: FC<ModalProps> = ({
             className={`px-3 py-1 rounded text-white cursor-pointer ${
               variantClasses[variant]
             }`}
+            form={formId}
           >
             {confirmText}
           </button>
