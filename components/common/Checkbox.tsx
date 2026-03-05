@@ -22,7 +22,7 @@ function Checkbox<T extends FieldValues>({
       <Controller
         name={name}
         control={control}
-        defaultValue={false as PathValueImpl<T, Path<T>>}
+        defaultValue={false as any}
         render={({ field }) => (
           <ChakraCheckbox.Root
             checked={!!field.value}
