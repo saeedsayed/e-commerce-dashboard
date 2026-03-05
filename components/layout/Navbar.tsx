@@ -1,23 +1,25 @@
-import { PanelRightClose } from "lucide-react";
-import React from "react";
 import ThemeAndLangButton from "../common/Theme&LangButton";
+import { Box, Flex } from "@chakra-ui/react";
+import RoutesBreadcrumb from "../ui/RoutesBreadcrumb";
 
 const Navbar = () => {
   return (
-    <nav className="navbar w-full bg-base-300">
-      <label
-        htmlFor="my-drawer-4"
-        aria-label="open sidebar"
-        className="btn btn-square btn-ghost"
-      >
-        {/* Sidebar toggle icon */}
-        <PanelRightClose />
-      </label>
-      <div className="px-4">Navbar Title</div>
-      <div className="ms-auto">
+    <Flex
+      as={"nav"}
+      bg={"bg.subtle"}
+      borderBottom={"1px solid"}
+      borderColor={"border.emphasized"}
+      padding={"2"}
+      justify={"space-between"}
+      align={"center"}
+    >
+      <Flex align={"center"} gap={3}>
+        <RoutesBreadcrumb />
+      </Flex>
+      <Box className="ms-auto">
         <ThemeAndLangButton />
-      </div>
-    </nav>
+      </Box>
+    </Flex>
   );
 };
 

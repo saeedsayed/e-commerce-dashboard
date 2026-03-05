@@ -1,10 +1,12 @@
 import Modal from "@/components/common/Modal";
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Edit, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import EditProduct from "./EditProduct";
+import { Button, Flex } from "@chakra-ui/react";
+import { Tooltip } from "@/components/ui/tooltip";
 
 const ProductTableActions = ({ productId }: { productId: string }) => {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
@@ -26,15 +28,20 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
   });
   return (
     <>
-      <div className="flex gap-2">
-        <button
-          className="btn btn-xs btn-error text-base-content"
-          onClick={() => setDeleteModalIsOpen(true)}
-        >
-          Delete <Trash className="size-4" />
-        </button>
+      <Flex gap={2}>
+        <Tooltip content="Delete" showArrow>
+          <Button
+            onClick={() => setDeleteModalIsOpen(true)}
+            size={"xs"}
+            variant={"outline"}
+            borderColor={"red.border"}
+            color={"red.border"}
+          >
+            <Trash className="size-4" />
+          </Button>
+        </Tooltip>
         <EditProduct productId={productId} />
-      </div>
+      </Flex>
       <Modal
         isOpen={deleteModalIsOpen}
         message="Are you absolutely certain you want to permanently remove this folder and everything inside it? Once deleted, this action cannot be reversed."

@@ -1,15 +1,17 @@
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { ButtonGroup, IconButton } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
 import React from "react";
+import { Pagination as ChakraPagination } from "@chakra-ui/react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 type Props = {
   currentPage: number;
-  numberOfPages: number;
+  pagesCount: number;
   onPageChange?: (page: number) => void;
 };
 
-const Pagination = (props: Props) => {
-  const { currentPage, numberOfPages, onPageChange } = props;
+const Pagination = ({ currentPage, pagesCount, onPageChange }: Props) => {
   const router = useRouter();
   const pathName = usePathname();
   const params = useSearchParams();
@@ -21,88 +23,37 @@ const Pagination = (props: Props) => {
     onPageChange?.(page);
   };
 
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < numberOfPages) {
-      handlePageChange(currentPage + 1);
-    }
-  };
-
-  const generatePageNumbers = () => {
-    const pages = [];
-    const maxVisible = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-    const endPage = Math.min(numberOfPages, startPage + maxVisible - 1);
-
-    if (endPage - startPage < maxVisible - 1) {
-      startPage = Math.max(1, endPage - maxVisible + 1);
-    }
-
-    if (startPage > 1) {
-      pages.push(1);
-      if (startPage > 2) {
-        pages.push("...");
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
-
-    if (endPage < numberOfPages) {
-      if (endPage < numberOfPages - 1) {
-        pages.push("...");
-      }
-      pages.push(numberOfPages);
-    }
-
-    return pages;
-  };
-
-  const pageNumbers = generatePageNumbers();
-
   return (
-    <div className="flex justify-center items-center gap-2">
-      <button
-        className="btn btn-sm btn-outline"
-        onClick={handlePrevious}
-        disabled={currentPage === 1}
+    <>
+      <ChakraPagination.Root
+        count={pagesCount}
+        pageSize={1}
+        defaultPage={currentPage}
+        onPageChange={(e) => handlePageChange(e.page)}
       >
-        « Previous
-      </button>
+        <ButtonGroup variant="ghost" size="sm">
+          <ChakraPagination.PrevTrigger asChild>
+            <IconButton>
+              <ArrowLeft />
+            </IconButton>
+          </ChakraPagination.PrevTrigger>
 
-      <div className="flex gap-1">
-        {pageNumbers.map((page, index) => (
-          <React.Fragment key={index}>
-            {page === "..." ? (
-              <span className="px-3">...</span>
-            ) : (
-              <button
-                onClick={() => handlePageChange(page as number)}
-                className={`btn btn-sm ${
-                  currentPage === page ? "btn-active" : "btn-outline"
-                }`}
-              >
-                {page}
-              </button>
+          <ChakraPagination.Items
+            render={(page) => (
+              <IconButton variant={{ base: "ghost", _selected: "outline" }}>
+                {page.value}
+              </IconButton>
             )}
-          </React.Fragment>
-        ))}
-      </div>
+          />
 
-      <button
-        className="btn btn-sm btn-outline"
-        onClick={handleNext}
-        disabled={currentPage === numberOfPages}
-      >
-        Next »
-      </button>
-    </div>
+          <ChakraPagination.NextTrigger asChild>
+            <IconButton>
+              <ArrowRight />
+            </IconButton>
+          </ChakraPagination.NextTrigger>
+        </ButtonGroup>
+      </ChakraPagination.Root>
+    </>
   );
 };
 

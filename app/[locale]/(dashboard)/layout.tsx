@@ -1,22 +1,24 @@
 // import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
+import { Container, Flex } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 const layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <div className="drawer lg:drawer-open overflow-hidden">
-        <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
+      <Flex className="h-screen overflow-hidden overflow-x-auto">
+        <Sidebar />
+        <div className="flex-1 overflow-x-hidden">
           <Navbar />
           {/* Page content here */}
-          <div className="p-4 h-[calc(100vh-4rem)] overflow-x-auto">
-            {children}
-          </div>
+          <Container py={4} fluid>
+            <div className="p-4 h-[calc(100vh-6rem)] overflow-x-auto">
+              {children}
+            </div>
+          </Container>
         </div>
-        <Sidebar />
-      </div>
+      </Flex>
       {/* <Footer /> */}
     </>
   );

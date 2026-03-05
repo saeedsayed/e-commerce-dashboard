@@ -2,13 +2,15 @@
 
 import { Edit } from "lucide-react";
 import { useEffect, useState } from "react";
-import CreateProductForm from "./ProductForm";
 import { TCreateProductForm } from "@/schemas/createProduct";
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
 import Modal from "@/components/common/Modal";
+import { Tooltip } from "@/components/ui/tooltip";
+import { AbsoluteCenter, Box, Button, Spinner } from "@chakra-ui/react";
+import ProductForm from "./ProductForm";
 
 const EditProduct = ({ productId }: { productId: string }) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -53,14 +55,19 @@ const EditProduct = ({ productId }: { productId: string }) => {
   }, [productId, modalIsOpen, getProduct]);
   return (
     <>
-      <button
-        className="btn btn-xs btn-info text-base-content"
-        onClick={() => {
-          setModalIsOpen(true);
-        }}
-      >
-        Edit <Edit className="size-4" />
-      </button>
+      <Tooltip content="Edit" showArrow>
+        <Button
+          onClick={() => {
+            setModalIsOpen(true);
+          }}
+          size={"xs"}
+          variant={"outline"}
+          borderColor={"blue.border"}
+          color={"blue.border"}
+        >
+          <Edit className="size-4" />
+        </Button>
+      </Tooltip>
       <Modal
         isOpen={modalIsOpen}
         onCancel={() => {
@@ -69,15 +76,17 @@ const EditProduct = ({ productId }: { productId: string }) => {
         onConfirm={() => {}}
         title="Update a new product"
         formId="updateProductForm"
-        classes="w-md"
+        classes="w-lg"
         confirmText={isPending ? "Updating..." : "Update"}
       >
         {isGetProduct ? (
-          <div className="h-80 w-full flex items-center justify-center">
-            <div className="loading loading-spinner size-24"></div>
-          </div>
+          <Box height={80}>
+            <AbsoluteCenter>
+              <Spinner size={"xl"} />
+            </AbsoluteCenter>
+          </Box>
         ) : (
-          <CreateProductForm
+          <ProductForm
             onSubmit={(data) => mutate(data)}
             isSubmitting={isPending}
             formId="updateProductForm"
@@ -89,7 +98,7 @@ const EditProduct = ({ productId }: { productId: string }) => {
               thumbnail: product?.thumbnail || "",
               category: product?.category || [],
               stock: product?.stock || 0,
-              images: product?.images
+              images: product?.images,
             }}
           />
         )}

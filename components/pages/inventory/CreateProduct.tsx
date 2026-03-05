@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 import Modal from "@/components/common/Modal";
+import { Button } from "@chakra-ui/react";
 
 const CreateProduct = () => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -31,18 +32,17 @@ const CreateProduct = () => {
   });
   return (
     <>
-      <button className="btn btn-primary" onClick={() => setModalIsOpen(true)}>
+      <Button onClick={() => setModalIsOpen(true)}>
         Create Product <Plus />
-      </button>
+      </Button>
       <Modal
         isOpen={modalIsOpen}
         onCancel={() => {
           setModalIsOpen(false);
         }}
-        onConfirm={() => {}}
         title="Create a new product"
         formId="createProductForm"
-        classes="w-md"
+        classes="w-lg"
         confirmText={isPending ? "Creating..." : "Create"}
       >
         <CreateProductForm

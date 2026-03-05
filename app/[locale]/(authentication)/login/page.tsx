@@ -1,24 +1,24 @@
 "use client";
 
-import Link from "next/link";
-
 import Input from "@/components/common/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema from "@/schemas/login.schema";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useAuthContext } from "@/context/authProvider";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import Checkbox from "@/components/common/Checkbox";
 
 export default function LoginPage() {
   const t = useTranslations("Auth");
   const router = useRouter();
-  const locale = useLocale();
   const { loginFn } = useAuthContext();
   const {
     handleSubmit,
+    control,
     register,
     formState: { errors },
     reset,
@@ -44,23 +44,27 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="mb-4 text-center">
-        <h2 className="text-2xl font-semibold ">
-          {t("sign_in_title")}
-        </h2>
-        <p className="text-sm  mt-2">{t("sign_in_subtitle")}</p>
-      </div>
+    <Box spaceY={6}>
+      <Box>
+        <Heading textAlign={"center"}>{t("sign_in_title")}</Heading>
+        <Text mt={2}>{t("sign_in_subtitle")}</Text>
+      </Box>
 
       {isLoginError && (
-        <div className="text-sm text-red-400 bg-red-900/20 p-2 rounded">
+        <Text
+          color={"red.border"}
+          rounded={"md"}
+          border={"1px solid"}
+          borderColor={"red.border"}
+          px={2}
+        >
           {error.message}
-        </div>
+        </Text>
       )}
 
       <form
         onSubmit={handleSubmit((data) => handleLogin(data))}
-        className="space-y-4"
+        className="space-y-4!"
       >
         <Input
           id="email"
@@ -83,32 +87,30 @@ export default function LoginPage() {
           disabled={isPending}
         />
 
-        <Link
-          href={`/${locale}/forgotpassword`}
-          className="text-sm hover:underline text-primary"
-        >
-          {t("forgot")}
+        <Link href={`/forgotpassword`}>
+          <Text _hover={{ textDecoration: "underline" }}>{t("forgot")}</Text>
         </Link>
 
-        <div className="flex items-center justify-between">
+        <Flex alignItems={"center"} justifyContent={"space-between"}>
           <div>
-            <Input
-              id="rememberMe"
+            <Checkbox
+              name="rememberMe"
+              control={control}
               label={t("remember_me")}
-              type="checkbox"
-              register={register("rememberMe")}
+              err={!!errors?.rememberMe}
+              errMes={errors.rememberMe?.message}
             />
           </div>
 
-          <button
+          <Button
             type="submit"
-            disabled={isPending}
-            className="btn btn-primary"
+            loading={isPending}
+            loadingText={t("signing_in")}
           >
-            {isPending ? t("signing_in") : t("sign_in")}
-          </button>
-        </div>
+            {t("sign_in")}
+          </Button>
+        </Flex>
       </form>
-    </div>
+    </Box>
   );
 }

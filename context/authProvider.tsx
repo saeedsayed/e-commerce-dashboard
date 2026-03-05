@@ -1,4 +1,5 @@
 "use client";
+import { TLoginSchema } from "@/schemas/login.schema";
 import { IUser } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { AxiosError } from "axios";
@@ -14,11 +15,7 @@ import {
 interface IAuthProvider {
   user: IUser | null;
   status: "loading" | "authenticated" | "unauthenticated";
-  loginFn: (credential: {
-    email: string;
-    password: string;
-    rememberMe: boolean;
-  }) => Promise<void>;
+  loginFn: (credential: TLoginSchema) => Promise<void>;
   logoutFn: () => void;
 }
 
@@ -34,11 +31,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     useState<IAuthProvider["status"]>("unauthenticated");
   const [user, setUser] = useState<IUser | null>(null);
 
-  const loginFn = async (credentials: {
-    email: string;
-    password: string;
-    rememberMe: boolean;
-  }) => {
+  const loginFn = async (credentials: TLoginSchema) => {
     try {
       setStatus("loading");
       const {

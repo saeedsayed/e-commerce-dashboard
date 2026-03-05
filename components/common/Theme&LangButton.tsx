@@ -1,47 +1,41 @@
 "use client";
 import { usePathname, useRouter } from "@/i18n/navigation";
-import { Globe, Moon, Sun } from "lucide-react";
+import { Globe } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { ColorModeButton } from "../ui/color-mode";
+import { Button, Flex } from "@chakra-ui/react";
+import { useSearchParams } from "next/navigation";
+import { Tooltip } from "../ui/tooltip";
 
 const ThemeAndLangButton = () => {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+  const params = useSearchParams();
   const t = useTranslations("Nav");
 
   const changeLanguage = (newLocale: "en" | "ar") => {
-    router.replace(pathname, { locale: newLocale });
+    const current = new URLSearchParams(Array.from(params.entries()));
+    router.replace(`${pathname}?${current}`, { locale: newLocale });
+  };
+  const handleToggleLang = () => {
+    changeLanguage(locale === "en" ? "ar" : "en");
   };
   return (
-    <div className="flex gap-4 items-center justify-center w-fit border rounded-xl px-2 py-1">
+    <Flex
+      border={"1px solid"}
+      borderColor={"border.emphasized"}
+      className="items-center justify-center w-fit rounded-xl px-2 py-1 overflow-hidden"
+    >
       {/* toggle theme button */}
-      <label
-        className="swap swap-rotate tooltip tooltip-bottom"
-        data-tip={t("toggle_theme")}
-      >
-        <input type="checkbox" className="theme-controller" value="light" />
-        {/* sun icon */}
-        <Sun className="swap-on h-7 w-7 fill-current text-yellow-400" />
-        {/* moon icon */}
-        <Moon className="swap-off h-7 w-7 fill-current text-amber-100" />
-      </label>
+      <ColorModeButton />
       {/* toggle language button */}
-      <label
-        className={`flex cursor-pointer tooltip ${locale === "ar" ? "tooltip-right" : "tooltip-left"}`}
-        data-tip={t("toggle_language")}
-      >
-        <Globe className="w-4" />
-        <label className="swap">
-          <input
-            type="checkbox"
-            onChange={() => changeLanguage(locale === "en" ? "ar" : "en")}
-            checked={locale === "ar"}
-          />
-          <div className="swap-on">EN</div>
-          <div className="swap-off">AR</div>
-        </label>
-      </label>
-    </div>
+      <Tooltip showArrow content={t("toggle_language")}>
+        <Button variant={"ghost"} className="px-0!" onClick={handleToggleLang}>
+          <Globe className="w-4" />
+        </Button>
+      </Tooltip>
+    </Flex>
   );
 };
 

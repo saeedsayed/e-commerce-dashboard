@@ -4,20 +4,23 @@ import React, { useMemo, useState } from "react";
 import Pagination from "./Pagination";
 import Search from "./Search";
 import { AArrowDown, AArrowUp, MoveVertical } from "lucide-react";
+import { Box, Center, Table as ChakraTable, Spinner } from "@chakra-ui/react";
+
+export type TColumn<T> = {
+  id: string;
+  header: string;
+  accessorKey: string;
+  cell?: (row: T) => React.ReactNode;
+  sortable?: boolean;
+  filterable?: boolean;
+};
 
 type Props<T = Record<string, unknown>> = {
-  columns: {
-    id: string;
-    header: string;
-    accessorKey: string;
-    cell?: (row: T) => React.ReactNode;
-    sortable?: boolean;
-    filterable?: boolean;
-  }[];
+  columns: TColumn<T>[];
   data: T[];
   numberOfAllItems: number;
-  numberOfShowingItems: number;
-  numberOfPages: number;
+  pageSize: number;
+  pagesCount: number;
   currentPage: number;
   isLoading?: boolean;
 };
@@ -55,8 +58,8 @@ function Table<T = Record<string, unknown>>({
   columns,
   data,
   numberOfAllItems,
-  numberOfShowingItems,
-  numberOfPages,
+  pageSize,
+  pagesCount,
   currentPage,
   isLoading,
 }: Props<T>) {
@@ -104,11 +107,8 @@ function Table<T = Record<string, unknown>>({
       return sortConfig.direction === "asc" ? result : -result;
     });
   }, [data, columns, sortConfig]);
-
-  const displayedCount = processedData.length;
-
   return (
-    <>
+    <Box position={"relative"}>
       <div className="mb-3 text-end">
         {/* {sortConfig && ( */}
         <button
@@ -122,23 +122,30 @@ function Table<T = Record<string, unknown>>({
         </button>
         {/* )} */}
       </div>
-      <div className="h-[calc(100vh-16rem)] overflow-auto my-1">
-        <table className="table table-zebra table-pin-rows">
+      {isLoading && (
+        <Box pos="absolute" inset="0" bg="bg/80" zIndex={10}>
+          <Center h="full">
+            <Spinner size={"xl"} borderWidth={4} />
+          </Center>
+        </Box>
+      )}
+      <ChakraTable.ScrollArea rounded="md" height="calc(100vh - 16rem)" my={4}>
+        <ChakraTable.Root striped stickyHeader>
           {/* head */}
-          <thead>
-            <tr>
+          <ChakraTable.Header>
+            <ChakraTable.Row>
               {/* select label */}
               {/* <th>
                 <label>
                   <input type="checkbox" className="checkbox" />
                 </label>
               </th> */}
-              <th>#</th>
+              <ChakraTable.ColumnHeader>#</ChakraTable.ColumnHeader>
               {columns.map((column) => {
                 const isSorted = sortConfig?.id === column.id;
                 const sortable = column.sortable !== false;
                 return (
-                  <th key={column.id}>
+                  <ChakraTable.ColumnHeader key={column.id}>
                     <button
                       type="button"
                       className={`inline-flex items-center gap-1 ${
@@ -161,45 +168,40 @@ function Table<T = Record<string, unknown>>({
                         </span>
                       )}
                     </button>
-                  </th>
+                  </ChakraTable.ColumnHeader>
                 );
               })}
-            </tr>
-            <tr>
-              <th />
+            </ChakraTable.Row>
+            <ChakraTable.Row>
+              <ChakraTable.ColumnHeader />
               {columns.map((column) => {
                 const filterable = column.filterable !== false;
                 return (
-                  <th key={`${column.id}-filter`}>
+                  <ChakraTable.ColumnHeader key={`${column.id}-filter`}>
                     {filterable ? (
                       <Search
                         searchBy={column.accessorKey}
                         placeholder={`Filter ${column.header}`}
                       />
                     ) : null}
-                  </th>
+                  </ChakraTable.ColumnHeader>
                 );
               })}
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading && !processedData.length ? (
-              <tr className="h-52">
-                <td colSpan={columns.length + 2}>
-                  <div className="h-full flex items-center justify-center">
-                    <div className="loading loading-spinner loading-lg size-24" />
-                  </div>
-                </td>
-              </tr>
-            ) : !processedData.length ? (
-              <tr>
-                <td colSpan={columns.length + 2} className="text-center">
+            </ChakraTable.Row>
+          </ChakraTable.Header>
+          <ChakraTable.Body>
+            {!processedData.length ? (
+              <ChakraTable.Row>
+                <ChakraTable.Cell
+                  colSpan={columns.length + 2}
+                  className="text-center"
+                >
                   No data available
-                </td>
-              </tr>
+                </ChakraTable.Cell>
+              </ChakraTable.Row>
             ) : (
               processedData.map((row, i) => (
-                <tr
+                <ChakraTable.Row
                   key={String(
                     (row as Record<string, unknown>)?._id ||
                       getNestedValue(
@@ -214,9 +216,11 @@ function Table<T = Record<string, unknown>>({
                       <input type="checkbox" className="checkbox" />
                     </label>
                   </th> */}
-                  <th>{i + 1 + (currentPage - 1) * numberOfShowingItems}</th>
+                  <ChakraTable.ColumnHeader>
+                    {i + 1 + (currentPage - 1) * pageSize}
+                  </ChakraTable.ColumnHeader>
                   {columns.map((column) => (
-                    <td key={column.id}>
+                    <ChakraTable.Cell key={column.id}>
                       {column.cell
                         ? column.cell(row)
                         : String(
@@ -225,36 +229,28 @@ function Table<T = Record<string, unknown>>({
                               column.accessorKey,
                             ) ?? "",
                           )}
-                    </td>
+                    </ChakraTable.Cell>
                   ))}
-                </tr>
+                </ChakraTable.Row>
               ))
             )}
-            {isLoading && !!processedData.length && (
-              <tr>
-                <td colSpan={columns.length + 2}>
-                  <div className="h-full flex items-center justify-center">
-                    <div className="loading loading-spinner loading-lg size-16" />
-                  </div>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-      {numberOfPages > 0 && (
+          </ChakraTable.Body>
+        </ChakraTable.Root>
+      </ChakraTable.ScrollArea>
+      {/* </Box> */}
+      {pagesCount > 0 && (
         <div className="flex justify-end items-center mt-4 gap-2">
           <p className="text-sm text-gray-500">
-            Showing{" "}
-            {displayedCount > numberOfAllItems
+            {pageSize * (currentPage - 1) + 1} –
+            {pageSize * currentPage > numberOfAllItems
               ? numberOfAllItems
-              : displayedCount}{" "}
+              : pageSize * currentPage}{" "}
             of {numberOfAllItems} items
           </p>
-          <Pagination currentPage={currentPage} numberOfPages={numberOfPages} />
+          <Pagination currentPage={currentPage} pagesCount={pagesCount} />
         </div>
       )}
-    </>
+    </Box>
   );
 }
 

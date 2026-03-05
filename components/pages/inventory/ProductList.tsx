@@ -34,9 +34,9 @@ const ProductList = () => {
         isLoading={isLoading || isRefetching}
         data={data?.data || []}
         currentPage={data?.paginate.currentPage as number}
-        numberOfPages={data?.paginate.totalPages as number}
+        pagesCount={data?.paginate.totalPages as number}
         numberOfAllItems={data?.results || 0}
-        numberOfShowingItems={data?.paginate.limit as number}
+        pageSize={data?.paginate.limit as number}
       />
     </>
   );

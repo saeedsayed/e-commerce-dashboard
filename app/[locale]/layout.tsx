@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import ReactQueryProvider from "@/context/ReactQueryContext";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/context/authProvider";
+import { ChakraUiProvider } from "@/components/ui/provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,17 +34,23 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"}>
+    <html
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      suppressHydrationWarning
+    >
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <NextIntlClientProvider>
-            <AuthProvider>
-              <Toaster position="bottom-center" />
-              {children}
-            </AuthProvider>
-          </NextIntlClientProvider>
+          <ChakraUiProvider>
+            <NextIntlClientProvider>
+              <AuthProvider>
+                <Toaster position="bottom-center" />
+                {children}
+              </AuthProvider>
+            </NextIntlClientProvider>
+          </ChakraUiProvider>
         </ReactQueryProvider>
       </body>
     </html>

@@ -1,8 +1,10 @@
 import { IProduct } from "@/types";
 import Image from "next/image";
 import ProductTableActions from "./ProductTableActions";
+import { Badge } from "@chakra-ui/react";
+import { TColumn } from "@/components/common/Table";
 
-export const columns = [
+export const columns: TColumn<IProduct>[] = [
   {
     id: "thumbnail",
     header: "Thumbnail",
@@ -15,7 +17,7 @@ export const columns = [
         alt={row.title}
         width={100}
         height={100}
-        className="w-16 h-16 object-cover rounded"
+        className="w-16 h-16! object-cover rounded"
       />
     ),
   },
@@ -39,9 +41,9 @@ export const columns = [
     accessorKey: "discount",
     cell: (row: IProduct) =>
       row.discount > 0 ? (
-        <p className="badge badge-primary badge-xs">-${row.discount}</p>
+        <Badge colorPalette={"cyan"}>-${row.discount}</Badge>
       ) : (
-        <p className="badge badge-warning badge-xs">No Discount</p>
+        <Badge colorPalette={"blue"}>No Discount</Badge>
       ),
   },
   { id: "stock", header: "Stock", accessorKey: "stock" },
@@ -64,12 +66,12 @@ export const columns = [
     cell: (row: IProduct) =>
       row.versions.length ? (
         row.versions.map((version) => (
-          <p key={version._id} className="badge badge-soft">
+          <Badge key={version.versionName} colorPalette={"green"}>
             {version?.versionName || "no versions"}
-          </p>
+          </Badge>
         ))
       ) : (
-        <p className="badge badge-warning badge-xs">No Versions</p>
+        <Badge colorPalette={"blue"}>No Versions</Badge>
       ),
   },
   {
