@@ -2,6 +2,7 @@
 import Input from "@/components/common/Input";
 import Modal from "@/components/common/Modal";
 import axiosInstance from "@/utils/axiosInstance";
+import { Button } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { Plus } from "lucide-react";
@@ -40,17 +41,17 @@ const CreateFolder = () => {
   });
   return (
     <>
-      <button
-        className="btn btn-primary"
+      <Button
         onClick={() => setIsCreateFolderModalOpen(true)}
       >
         New folder <Plus />
-      </button>
+      </Button>
       <Modal
         isOpen={isCreateFolderModalOpen}
         confirmText={isPending ? "Creating..." : "Create new folder"}
         onConfirm={() => create()}
         onCancel={() => setIsCreateFolderModalOpen(false)}
+        title="Create new folder"
       >
         <Input
           id="folderName"

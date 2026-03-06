@@ -4,6 +4,7 @@ import CreateFolder from "./CreateFolder";
 import FolderList from "./FolderList";
 import FolderMedia from "./FolderMedia";
 import { IFile, IFolder } from "@/types";
+import { Grid, GridItem, Text } from "@chakra-ui/react";
 
 type Props = {
   isPortal?: boolean;
@@ -14,15 +15,22 @@ type Props = {
 const MediaLibrary = ({ onChoseMedia, choseMediaMode }: Props) => {
   const [selectedFolder, setSelectedFolder] = useState<IFolder | null>(null);
   return (
-    <div className="flex h-[calc(100%+2rem)] -my-4">
-      <div className="border-e w-fit min-w-52 py-4 overflow-hidden">
+    <Grid h={"full"} templateColumns={"minmax(auto, 280px) 1fr"} gap={4}>
+      <GridItem
+        overflow={"hidden"}
+        borderEnd={"1px solid"}
+        borderColor={"border.emphasized"}
+        py={5}
+        my={-4}
+        ms={-5}
+      >
         <CreateFolder />
         <FolderList
           onSelectFolder={(folder: IFolder) => setSelectedFolder(folder)}
           selectedFolder={selectedFolder}
         />
-      </div>
-      <div className="p-4 flex-1 min-w-md h-full overflow-auto">
+      </GridItem>
+      <GridItem overflow={"hidden"} me={-6}>
         {!!selectedFolder ? (
           <FolderMedia
             folderId={selectedFolder?._id}
@@ -30,10 +38,10 @@ const MediaLibrary = ({ onChoseMedia, choseMediaMode }: Props) => {
             selectMode={choseMediaMode}
           />
         ) : (
-          <p>select folder at first</p>
+          <Text>select folder at first</Text>
         )}
-      </div>
-    </div>
+      </GridItem>
+    </Grid>
   );
 };
 

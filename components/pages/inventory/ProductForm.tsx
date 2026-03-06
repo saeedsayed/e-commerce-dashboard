@@ -255,7 +255,7 @@ const ProductForm = ({
         title="select product thumbnail"
         size="cover"
       >
-        <div className="h-[calc(100vh-200px)] -m-4 p-4">
+        <div className="h-full">
           <MediaLibrary
             choseMediaMode={
               choseFileMode === "thumbnail" ? "single" : "multiple"

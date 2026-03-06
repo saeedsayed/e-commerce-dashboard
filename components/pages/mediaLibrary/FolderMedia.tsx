@@ -9,6 +9,7 @@ import UploadFiles from "./UploadFiles";
 import ImagePreview from "@/components/common/ImagePreview";
 import toast from "react-hot-toast";
 import Modal from "@/components/common/Modal";
+import { Button, Checkbox, Flex, Grid } from "@chakra-ui/react";
 
 type Props = {
   folderId: string;
@@ -33,9 +34,10 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
 
   const handleSelect = (files: IFile[]) => {
     if (
-      selectMode === "single" &&
-      selectedFiles.length === 1 &&
-      files.length > 1
+      (selectMode === "single" &&
+        selectedFiles.length === 1 &&
+        files.length > 1) ||
+      (selectMode === "single" && files.length > 1)
     )
       return toast.error("you can't select more then one file");
     setSelectedFiles(files);
@@ -71,16 +73,23 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
       </>
     );
   return (
-    <main>
-      <div className="flex justify-between items-center mb-2">
+    <main className="h-full">
+      <Flex
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        mb={2}
+        pe={6}
+      >
         <h1 className="text-2xl font-bold mb-4">
           <span className="text-sm text-gray-600">Folder name:</span>{" "}
           {data?.folderTitle}
         </h1>
         <div className="flex items-center gap-1.5">
           {selectedFiles.length > 0 && (
-            <button
-              className="btn btn-soft btn-error btn-sm"
+            <Button
+              variant={"outline"}
+              borderColor={"red.border"}
+              color={"red.border"}
               onClick={() => setIsDelModOpen(true)}
             >
               {isPending ? (
@@ -90,51 +99,69 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
                   Delete <Trash />
                 </>
               )}
-            </button>
+            </Button>
           )}
           <UploadFiles folderId={folderId} />
           <span className="text-sm text-gray-500">
             ({selectedFiles.length} selected)
           </span>
-          <label>
-            <input
-              type="checkbox"
-              className="checkbox border-primary text-primary"
-              checked={selectedFiles.length === data?.files.length}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  handleSelect(data?.files || []);
-                } else {
-                  handleSelect([]);
-                }
-              }}
-            />
-          </label>
+          <Checkbox.Root
+            checked={
+              !!selectedFiles.length &&
+              selectedFiles.length < (data?.files.length || 0)
+                ? "indeterminate"
+                : +selectedFiles.length === +(data?.files.length || 0)
+            }
+            onCheckedChange={(e) => {
+              if (e.checked) {
+                handleSelect(data?.files || []);
+              } else {
+                handleSelect([]);
+              }
+            }}
+          >
+            <Checkbox.HiddenInput />
+            <Checkbox.Control>
+              <Checkbox.Indicator />
+            </Checkbox.Control>
+            {/* <Checkbox.Label>Weekdays</Checkbox.Label> */}
+          </Checkbox.Root>
         </div>
-      </div>
-      <section className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      </Flex>
+      <Grid
+        templateColumns={"repeat(2, 1fr)"}
+        md={{ gridTemplateColumns: "repeat(2, 1fr)" }}
+        lg={{ gridTemplateColumns: "repeat(4, 1fr)" }}
+        xl={{ gridTemplateColumns: "repeat(5, auto)" }}
+        gap={3}
+        h={"calc(100% - 3rem)"}
+        overflowY={"auto"}
+      >
         {data?.files.map((file) => (
           <div
             key={file._id}
             className="border rounded p-4 flex flex-col gap-1 justify-between relative"
           >
             {/* select label */}
-            <label className="absolute top-2 end-2">
-              <input
-                type="checkbox"
-                className="checkbox border-primary text-primary"
-                checked={selectedFiles.some((f) => f._id === file._id)}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    handleSelect([...selectedFiles, file]);
-                  } else {
-                    handleSelect(
-                      selectedFiles.filter((f) => f._id !== file._id),
-                    );
-                  }
-                }}
-              />
-            </label>
+
+            <Checkbox.Root
+              position={"absolute"}
+              top={2}
+              className="end-2"
+              color={"red.border"}
+              checked={selectedFiles.some((f) => f._id === file._id)}
+              onCheckedChange={(e) => {
+                if (!!e.checked) {
+                  handleSelect([...selectedFiles, file]);
+                } else {
+                  handleSelect(selectedFiles.filter((f) => f._id !== file._id));
+                }
+              }}
+            >
+              <Checkbox.HiddenInput />
+              <Checkbox.Control />
+            </Checkbox.Root>
+
             <Image
               src={file.fileUrl}
               alt={file.publicId}
@@ -165,7 +192,7 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
             <div className="loading loading-spinner loading-lg size-16"></div>
           </div>
         )}
-      </section>
+      </Grid>
       <ImagePreview
         isOpen={!!imagePreviewUrl}
         images={[imagePreviewUrl] as string[]}

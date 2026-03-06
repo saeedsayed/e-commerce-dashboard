@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import Pagination from "./Pagination";
 import Search from "./Search";
 import { AArrowDown, AArrowUp, MoveVertical } from "lucide-react";
-import { Box, Center, Table as ChakraTable, Spinner } from "@chakra-ui/react";
+import { Box, Button, Center, Table as ChakraTable, Spinner } from "@chakra-ui/react";
 
 export type TColumn<T> = {
   id: string;
@@ -111,15 +111,16 @@ function Table<T = Record<string, unknown>>({
     <Box position={"relative"}>
       <div className="mb-3 text-end">
         {/* {sortConfig && ( */}
-        <button
+        <Button
           type="button"
-          className="btn btn-outline btn-sm"
+          size={"xs"}
+          variant={"outline"}
           onClick={() => {
             setSortConfig(null);
           }}
         >
           Reset filters
-        </button>
+        </Button>
         {/* )} */}
       </div>
       {isLoading && (

@@ -1,6 +1,7 @@
 import ImagePreview from "@/components/common/ImagePreview";
 import Modal from "@/components/common/Modal";
 import axiosInstance from "@/utils/axiosInstance";
+import { Button } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import Image from "next/image";
@@ -54,9 +55,9 @@ const UploadFiles = ({ folderId }: Props) => {
     <>
       {uploadErr && <p className="text-sm text-red-500 mb-1">{uploadErr}</p>}
       <label>
-        <span className="btn btn-soft btn-primary btn-sm">
+        <Button as="span">
           Upload new file <Plus />
-        </span>
+        </Button>
         <FileUploader
           classes="hidden!"
           onTypeError={(err: string) => setUploadErr(err)}

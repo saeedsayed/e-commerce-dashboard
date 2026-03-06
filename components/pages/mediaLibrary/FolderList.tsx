@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import Modal from "@/components/common/Modal";
+import { Button, Center, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Tooltip } from "@/components/ui/tooltip";
 
 type props = {
   onSelectFolder: (folder: IFolder) => void;
@@ -47,55 +49,68 @@ const FolderList = ({ onSelectFolder, selectedFolder }: props) => {
   if (isLoading)
     return (
       <>
-        <div className="flex items-center justify-center h-full">
-          Loading...
-        </div>
+        <Center h="full">
+          <Spinner size={"xl"} />
+        </Center>
       </>
     );
   return (
-    <section className="h-full overflow-auto pe-4">
-      <ul className="list">
+    <>
+      <Flex
+        as="ul"
+        flexDir={"column"}
+        h={"calc(100% - 1.3rem)"}
+        overflow={"auto"}
+        paddingBlock={4}
+      >
         {data?.map((folder) => (
-          <li
-            className={`list-row -me-4 px-4 rounded-none gap-1 flex ${selectedFolder?._id === folder._id ? "bg-base-300" : ""}`}
+          <Flex
+            as="li"
+            alignItems={"center"}
+            _hover={{ bg: "bg.emphasized" }}
+            p={2}
+            bg={selectedFolder?._id === folder?._id ? "bg.muted" : ""}
+            className={` ${selectedFolder?._id === folder._id ? "bg-base-300" : ""}`}
             key={folder._id}
           >
-            <button
-              onClick={() => {
-                onSelectFolder(folder);
-              }}
-              className="flex gap-1 items-center flex-1 cursor-pointer"
-            >
-              <div>
-                <Folder className="size-10 lg:size-10 fill-warning text-warning" />
-              </div>
-              <div>
-                <div>{folder.folderTitle}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">
-                  items: 0
+            <Tooltip content={folder.folderTitle} showArrow>
+              <button
+                onClick={() => {
+                  onSelectFolder(folder);
+                }}
+                className="flex gap-1 items-center flex-1 cursor-pointer truncate"
+              >
+                <div>
+                  <Folder className="size-10 lg:size-10" />
                 </div>
-              </div>
-            </button>
-            <button
-              className="btn btn-square btn-ghost tooltip tooltip-bottom tooltip-error text-error"
-              data-tip="Delete"
-              onClick={() => {
-                setIsDelModOpen(true);
-                setTargetDelFolder(folder._id);
-              }}
-            >
-              <Trash />
-            </button>
-            <button
-              className="btn btn-square btn-ghost tooltip tooltip-info tooltip-bottom"
-              data-tip="Rename"
-            >
+                <div>
+                  <Text textAlign={"start"}>{folder.folderTitle}</Text>
+                  <Text opacity={0.5} textAlign={"start"}>
+                    items: 0
+                  </Text>
+                </div>
+              </button>
+            </Tooltip>
+            <Tooltip content="Delete">
+              <Button
+                size={"xs"}
+                variant={"ghost"}
+                _hover={{ color: "red.border" }}
+                onClick={() => {
+                  setIsDelModOpen(true);
+                  setTargetDelFolder(folder._id);
+                }}
+              >
+                <Trash />
+              </Button>
+            </Tooltip>
+            <Button variant={"ghost"} size={"xs"}>
               <FolderPen />
-            </button>
-          </li>
+            </Button>
+          </Flex>
         ))}
         {isRefetching && <div className="loading loading-spinner size-16" />}
-      </ul>
+      </Flex>
       <Modal
         isOpen={isDelModOpen}
         message="Are you absolutely certain you want to permanently remove this folder and everything inside it? Once deleted, this action cannot be reversed."
@@ -105,7 +120,7 @@ const FolderList = ({ onSelectFolder, selectedFolder }: props) => {
         variant="danger"
         classes="max-w-md"
       />
-    </section>
+    </>
   );
 };
 

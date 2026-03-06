@@ -76,7 +76,7 @@ const EditProduct = ({ productId }: { productId: string }) => {
         onConfirm={() => {}}
         title="Update a new product"
         formId="updateProductForm"
-        classes="w-lg"
+        // classes="w-lg"
         confirmText={isPending ? "Updating..." : "Update"}
       >
         {isGetProduct ? (

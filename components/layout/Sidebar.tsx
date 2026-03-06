@@ -1,7 +1,7 @@
 "use client";
 import { DashboardRoutes } from "@/helpers/DashboardRoutes";
 import { Link } from "@/i18n/navigation";
-import { AbsoluteCenter, Box, Center, List, Span } from "@chakra-ui/react";
+import { AbsoluteCenter, Box, List, Span } from "@chakra-ui/react";
 import { SidebarClose, SidebarOpen } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
@@ -17,7 +17,7 @@ const Sidebar = () => {
       as={"aside"}
       borderEnd={"1px solid"}
       borderEndColor={"border.emphasized"}
-      
+      h={"full"}
       bg={"bg.subtle"}
       w={isSidebarOpen ? "64" : "16"}
       transition={"all"}
