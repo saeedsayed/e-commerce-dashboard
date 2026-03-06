@@ -19,7 +19,7 @@ const layout = ({ children }: { children: ReactNode }) => {
           <Navbar />
         </GridItem>
         {/* Page content here */}
-        <GridItem rowSpan={11}>
+        <GridItem rowSpan={11} overflowX={"hidden"}>
           <Container py={4} fluid h={"full"}>
             <main className="h-full">{children}</main>
           </Container>

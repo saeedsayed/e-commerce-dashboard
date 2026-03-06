@@ -15,7 +15,7 @@ type Props = {
 const MediaLibrary = ({ onChoseMedia, choseMediaMode }: Props) => {
   const [selectedFolder, setSelectedFolder] = useState<IFolder | null>(null);
   return (
-    <Grid h={"full"} templateColumns={"minmax(auto, 280px) 1fr"} gap={4}>
+    <Grid h={"full"} templateColumns={"minmax(auto, 260px) 1fr"} gap={4}>
       <GridItem
         overflow={"hidden"}
         borderEnd={"1px solid"}
