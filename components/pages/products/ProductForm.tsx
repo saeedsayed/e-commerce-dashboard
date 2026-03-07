@@ -1,5 +1,5 @@
-import Input from "@/components/common/Input";
-import Modal from "@/components/common/Modal";
+import Input from "@/components/ui/Input";
+import Modal from "@/components/ui/Modal";
 import {
   createProductSchema,
   TCreateProductForm,
@@ -15,8 +15,8 @@ import { ICategory } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Field, Flex, Spinner, Tag, Text } from "@chakra-ui/react";
 import Menu from "@/components/ui/Menu";
-import NumberInput from "@/components/common/NumberInput";
-import Textarea from "@/components/common/Textarea";
+import NumberInput from "@/components/ui/NumberInput";
+import Textarea from "@/components/ui/Textarea";
 
 type Props = {
   onSubmit: SubmitHandler<TCreateProductForm>;

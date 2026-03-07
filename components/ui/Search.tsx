@@ -1,5 +1,6 @@
 "use client";
 import { usePathname, useRouter } from "@/i18n/navigation";
+import { Button, Flex, Input } from "@chakra-ui/react";
 import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useRef, useCallback } from "react";
@@ -55,25 +56,32 @@ const Search = ({ searchBy, onSearch, placeholder }: Props) => {
   }, [inputVal, handleSearch]);
   return (
     <form
-      className="form-control"
       onSubmit={(e) => {
         e.preventDefault();
         handleSearch(inputVal);
       }}
     >
-      <div className="input-group border border-base-300 rounded flex items-center has-focus:border-transparent has-focus:ring-2 has-focus:ring-primary">
-        <input
+      <Flex
+        border={"1px solid"}
+        borderColor={"border.emphasized"}
+        rounded={"sm"}
+        alignItems={"center"}
+        className="has-focus:border-transparent has-focus:ring-2"
+      >
+        <Input
           type="search"
           name="search"
           value={inputVal}
+          border={"none"}
+          h={8}
+          _focus={{ outline: "none" }}
           placeholder={placeholder || "Search..."}
-          className="input border-0 rounded-ee-none rounded-se-none w-[calc(100%-rem)]ss focus:outline-none focus:ring-2s focus: focus:border-transparent"
           onChange={(e) => handleChange(e.target.value)}
         />
-        <button className="btn btn-square shadow-none">
+        <Button variant={"ghost"} size={"xs"}>
           <SearchIcon />
-        </button>
-      </div>
+        </Button>
+      </Flex>
     </form>
   );
 };

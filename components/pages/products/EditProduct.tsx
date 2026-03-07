@@ -7,7 +7,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
-import Modal from "@/components/common/Modal";
+import Modal from "@/components/ui/Modal";
 import { Tooltip } from "@/components/ui/tooltip";
 import { AbsoluteCenter, Box, Button, Spinner } from "@chakra-ui/react";
 import ProductForm from "./ProductForm";

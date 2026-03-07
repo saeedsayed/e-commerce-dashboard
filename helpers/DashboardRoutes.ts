@@ -4,33 +4,48 @@ import {
   HandHelping,
   Home,
   Images,
+  LucideProps,
   Newspaper,
   Package,
+  TicketPercent,
+  Truck,
   Users,
 } from "lucide-react";
 
 export type TDashboardRoute = {
   localKey: string;
   path: string;
-  icon: React.ReactNode;
+  icon: React.ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+  >;
   subRotes?: TDashboardRoute[];
 };
 
-export const DashboardRoutes = [
+export const DashboardRoutes: TDashboardRoute[] = [
   {
     localKey: "statistics",
     path: "/statistics",
     icon: Home,
   },
   {
-    localKey: "inventory",
-    path: "/inventory",
+    localKey: "products",
+    path: "/products",
     icon: Package,
   },
   {
     localKey: "orders",
     path: "/orders",
     icon: HandHelping,
+  },
+  {
+    localKey: "shipping_methods",
+    path: "/shipping-methods",
+    icon: Truck,
+  },
+  {
+    localKey: "coupons",
+    path: "/coupons",
+    icon: TicketPercent,
   },
   {
     localKey: "categories",

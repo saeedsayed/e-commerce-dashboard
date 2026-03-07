@@ -8,8 +8,17 @@ import { useState } from "react";
 import UploadFiles from "./UploadFiles";
 import ImagePreview from "@/components/common/ImagePreview";
 import toast from "react-hot-toast";
-import Modal from "@/components/common/Modal";
-import { Button, Checkbox, Flex, Grid } from "@chakra-ui/react";
+import Modal from "@/components/ui/Modal";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 
 type Props = {
   folderId: string;
@@ -73,7 +82,7 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
       </>
     );
   return (
-    <main className="h-full">
+    <Box h={"full"}>
       <Flex
         justifyContent={"space-between"}
         alignItems={"center"}
@@ -134,13 +143,18 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
         lg={{ gridTemplateColumns: "repeat(4, 1fr)" }}
         xl={{ gridTemplateColumns: "repeat(5, auto)" }}
         gap={3}
+        pe={2}
+        pb={4}
         h={"calc(100% - 3rem)"}
         overflowY={"auto"}
       >
         {data?.files.map((file) => (
-          <div
+          <GridItem
             key={file._id}
-            className="border rounded p-4 flex flex-col gap-1 justify-between relative"
+            border="1px solid"
+            borderColor={"border.emphasized"}
+            h={"fit"}
+            position={"relative"}
           >
             {/* select label */}
 
@@ -165,12 +179,12 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
             <Image
               src={file.fileUrl}
               alt={file.publicId}
-              width={100}
-              height={100}
-              className="w-full object-contain rounded m-auto"
+              width={500}
+              height={500}
+              // className="w-full h-full object-contain rounded m-autos "
               onClick={() => setImagePreviewURL(file.fileUrl)}
             />
-            <h3>
+            <Heading size={"sm"} mt={2}>
               <p className="font-semibold">
                 {new Date(file.createdAt).toLocaleString("en-US", {
                   weekday: "short",
@@ -181,11 +195,11 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
                   minute: "2-digit",
                 })}
               </p>
-              <p className="text-sm text-gray-500 text-ellipsis overflow-hidden">
+              <Text fontSize={"sm"} color={"GrayText"}>
                 {file.publicId}
-              </p>
-            </h3>
-          </div>
+              </Text>
+            </Heading>
+          </GridItem>
         ))}
         {isRefetching && (
           <div className="flex justify-center items-center">
@@ -207,7 +221,7 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
         title="Delete File(s)"
         variant="danger"
       />
-    </main>
+    </Box>
   );
 };
 

@@ -1,5 +1,5 @@
 import ImagePreview from "@/components/common/ImagePreview";
-import Modal from "@/components/common/Modal";
+import Modal from "@/components/ui/Modal";
 import axiosInstance from "@/utils/axiosInstance";
 import { Button } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

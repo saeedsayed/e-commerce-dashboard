@@ -6,7 +6,7 @@ import { Folder, FolderPen, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { AxiosError } from "axios";
-import Modal from "@/components/common/Modal";
+import Modal from "@/components/ui/Modal";
 import { Button, Center, Flex, Spinner, Text } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 

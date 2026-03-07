@@ -5,7 +5,7 @@ import {
   Field,
   ConditionalValue,
 } from "@chakra-ui/react";
-import { PasswordInput } from "../ui/password-input";
+import { PasswordInput } from "./password-input";
 
 interface InputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

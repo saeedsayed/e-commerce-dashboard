@@ -1,7 +1,7 @@
 // import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
-import { Container, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 const layout = ({ children }: { children: ReactNode }) => {
@@ -20,9 +20,7 @@ const layout = ({ children }: { children: ReactNode }) => {
         </GridItem>
         {/* Page content here */}
         <GridItem rowSpan={11} overflowX={"hidden"}>
-          <Container py={4} fluid h={"full"}>
-            <main className="h-full">{children}</main>
-          </Container>
+          <main className="h-full">{children}</main>
         </GridItem>
       </Grid>
       {/* <Footer /> */}

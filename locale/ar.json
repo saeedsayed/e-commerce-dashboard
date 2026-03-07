@@ -7,13 +7,13 @@
     "toggle_theme": "تبديل السمة",
     "toggle_language": "تبديل اللغة"
   },
-  "Sidebar":{
-    "inventory": "المخزن",
+  "Sidebar": {
+    "products": "المنتجات",
     "blogs": "المدونة",
     "categories": "الفئات",
     "orders": "الطلبات",
     "customers": "العملاء",
-    "media_library":"مكتبة الوسائط",
+    "media_library": "مكتبة الوسائط",
     "statistics": "التحليلات",
     "settings": "الإعدادات"
   },

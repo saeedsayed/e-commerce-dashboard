@@ -1,10 +1,16 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Pagination from "./Pagination";
-import Search from "./Search";
+import Pagination from "../ui/Pagination";
+import Search from "../ui/Search";
 import { AArrowDown, AArrowUp, MoveVertical } from "lucide-react";
-import { Box, Button, Center, Table as ChakraTable, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Table as ChakraTable,
+  Spinner,
+} from "@chakra-ui/react";
 
 export type TColumn<T> = {
   id: string;
@@ -147,13 +153,11 @@ function Table<T = Record<string, unknown>>({
                 const sortable = column.sortable !== false;
                 return (
                   <ChakraTable.ColumnHeader key={column.id}>
-                    <button
+                    <Button
+                    variant={"ghost"}
                       type="button"
-                      className={`inline-flex items-center gap-1 ${
-                        sortable
-                          ? "cursor-pointer hover:opacity-80"
-                          : "cursor-default"
-                      }`}
+                      size={"sm"}
+                      disabled={!sortable}
                       onClick={() => handleSort(column.id, sortable)}
                     >
                       {column.header}
@@ -168,7 +172,7 @@ function Table<T = Record<string, unknown>>({
                           <MoveVertical className="size-5" />
                         </span>
                       )}
-                    </button>
+                    </Button>
                   </ChakraTable.ColumnHeader>
                 );
               })}
@@ -238,7 +242,6 @@ function Table<T = Record<string, unknown>>({
           </ChakraTable.Body>
         </ChakraTable.Root>
       </ChakraTable.ScrollArea>
-      {/* </Box> */}
       {pagesCount > 0 && (
         <div className="flex justify-end items-center mt-4 gap-2">
           <p className="text-sm text-gray-500">

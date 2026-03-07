@@ -1,6 +1,6 @@
 "use client";
-import Input from "@/components/common/Input";
-import Modal from "@/components/common/Modal";
+import Input from "@/components/ui/Input";
+import Modal from "@/components/ui/Modal";
 import axiosInstance from "@/utils/axiosInstance";
 import { Button } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -41,9 +41,7 @@ const CreateFolder = () => {
   });
   return (
     <>
-      <Button
-        onClick={() => setIsCreateFolderModalOpen(true)}
-      >
+      <Button onClick={() => setIsCreateFolderModalOpen(true)}>
         New folder <Plus />
       </Button>
       <Modal

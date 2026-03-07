@@ -8,8 +8,11 @@
     "toggle_language": "Toggle language"
   },
   "Sidebar": {
-    "inventory": "inventory",
+    "products": "Products",
+    "coupons":"Coupons",
+    "add_product":"Add product",
     "blogs": "Blogs",
+    "shipping_methods":"Shipping methods",
     "categories": "Categories",
     "orders": "Orders",
     "customers": "Customers",

@@ -1,10 +1,17 @@
-import React from 'react'
-
+import CategoriesList from "@/components/pages/categories/CategoriesList";
+import CreateCategory from "@/components/pages/categories/CreateCategory";
+import { Container } from "@chakra-ui/react";
+import React from "react";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <Container py={4} fluid h={"full"}>
+        <CreateCategory />
+        <CategoriesList />
+      </Container>
+    </>
+  );
+};
 
-export default page
+export default page;

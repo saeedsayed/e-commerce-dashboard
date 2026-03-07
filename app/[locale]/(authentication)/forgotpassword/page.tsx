@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import Input from "@/components/common/Input";
+import Input from "@/components/ui/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema from "@/schemas/login.schema";

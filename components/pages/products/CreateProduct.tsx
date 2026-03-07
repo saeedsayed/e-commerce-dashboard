@@ -8,7 +8,7 @@ import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-import Modal from "@/components/common/Modal";
+import Modal from "@/components/ui/Modal";
 import { Button } from "@chakra-ui/react";
 
 const CreateProduct = () => {

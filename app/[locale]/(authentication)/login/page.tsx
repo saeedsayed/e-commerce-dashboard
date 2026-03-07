@@ -1,6 +1,6 @@
 "use client";
 
-import Input from "@/components/common/Input";
+import Input from "@/components/ui/Input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import loginSchema from "@/schemas/login.schema";
@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import { useAuthContext } from "@/context/authProvider";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import Checkbox from "@/components/common/Checkbox";
+import Checkbox from "@/components/ui/Checkbox";
 
 export default function LoginPage() {
   const t = useTranslations("Auth");
