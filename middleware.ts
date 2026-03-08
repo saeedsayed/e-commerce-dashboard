@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
   const authenticated = isAuthenticated(request);
   const publicRoute = isPublicRoute(pathname);
   // Handle root path redirect based on authentication
-  if (pathname === "/") {
+  if (pathname === "/" || pathname ==="/ar") {
     if (authenticated) {
       return NextResponse.redirect(new URL("/statistics", request.url));
     } else {

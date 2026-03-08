@@ -65,7 +65,7 @@ const Modal: FC<ModalProps> = ({
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>
+          <Dialog.Content maxH={"full"}>
             {title && (
               <Dialog.Header>
                 <Dialog.Title>{title}</Dialog.Title>

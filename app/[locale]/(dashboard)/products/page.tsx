@@ -6,7 +6,7 @@ import { Container } from "@chakra-ui/react";
 const page = async () => {
   return (
     <>
-      <Container py={4} fluid h={"full"}>
+      <Container py={4} fluid h={"full"} maxW={"2400px"}>
         <CreateProduct />
         <ProductList />
       </Container>

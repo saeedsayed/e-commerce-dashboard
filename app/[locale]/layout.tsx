@@ -6,7 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import ReactQueryProvider from "@/context/ReactQueryContext";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/context/authProvider";
-import { ChakraUiProvider } from "@/components/ui/provider";
+import { ChakraUiProvider } from "@/context/provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

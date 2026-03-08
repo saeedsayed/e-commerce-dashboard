@@ -1,6 +1,7 @@
 import ThemeAndLangButton from "../common/Theme&LangButton";
 import { Box, Flex } from "@chakra-ui/react";
 import RoutesBreadcrumb from "../ui/RoutesBreadcrumb";
+import ShowInFullScreen from "../ui/ShowInFullScreen";
 
 const Navbar = () => {
   return (
@@ -16,6 +17,7 @@ const Navbar = () => {
       <Flex align={"center"} gap={3}>
         <RoutesBreadcrumb />
       </Flex>
+        <ShowInFullScreen />
       <Box className="ms-auto">
         <ThemeAndLangButton />
       </Box>

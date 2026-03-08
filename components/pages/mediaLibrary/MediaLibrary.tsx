@@ -8,7 +8,7 @@ import { Center, Splitter } from "@chakra-ui/react";
 // import { useLocale } from "next-intl";
 
 type Props = {
-  isPortal?: boolean;
+  // isPortal?: boolean;
   onChoseMedia?: (media: IFile[]) => void;
   choseMediaMode?: "multiple" | "single";
 };

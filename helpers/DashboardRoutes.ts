@@ -7,6 +7,7 @@ import {
   LucideProps,
   Newspaper,
   Package,
+  Settings,
   TicketPercent,
   Truck,
   Users,
@@ -66,5 +67,10 @@ export const DashboardRoutes: TDashboardRoute[] = [
     localKey: "customers",
     path: "/customers",
     icon: Users,
+  },
+  {
+    localKey: "settings",
+    path: "/settings",
+    icon: Settings,
   },
 ];
