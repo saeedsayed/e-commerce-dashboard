@@ -1,8 +1,8 @@
 import { IArticle } from "@/types";
 import Image from "next/image";
 import ProductTableActions from "./BlogsTableActions";
-import { TColumn } from "@/components/common/Table";
-import { Box } from "@chakra-ui/react";
+import { TColumn } from "@/components/ui/Table";
+import { HStack, Tag } from "@chakra-ui/react";
 
 export const columns: TColumn<IArticle>[] = [
   {
@@ -22,14 +22,27 @@ export const columns: TColumn<IArticle>[] = [
     ),
   },
   { id: "name", header: "Name", accessorKey: "title" },
+  { id: "author", header: "author", accessorKey: "author" },
   {
-    id: "body",
-    header: "body",
-    accessorKey: "content",
+    id: "tags",
+    header: "tags",
+    accessorKey: "tags",
     sortable: false,
     filterable: false,
     cell: (row: IArticle) => (
-      <Box truncate w={700} dangerouslySetInnerHTML={{ __html: row.content }} maxH={"100px"} overflow={"auto"} />
+      <HStack>
+        {!row.tags?.length ? (
+          <Tag.Root colorPalette={"red"}>
+            <Tag.Label>No Tags</Tag.Label>
+          </Tag.Root>
+        ) : (
+          row.tags.map((tag) => (
+            <Tag.Root key={tag}>
+              <Tag.Label>{tag}</Tag.Label>
+            </Tag.Root>
+          ))
+        )}
+      </HStack>
     ),
   },
   {

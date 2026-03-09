@@ -1,5 +1,5 @@
 "use client";
-import Table from "@/components/common/Table";
+import Table from "@/components/ui/Table";
 import { IArticle } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
@@ -29,12 +29,15 @@ const BlogsList = () => {
     <>
       <Table
         columns={columns}
-        isLoading={isLoading || isRefetching}
+        isLoading={isLoading}
+        isRefresh={isRefetching}
         data={data?.blogs || []}
         currentPage={1}
         pagesCount={1}
         numberOfAllItems={data?.blogs.length || 0}
         pageSize={data?.blogs?.length || 0}
+        showRefreshBtn
+        queryKeys={["blogs"]}
       />
     </>
   );

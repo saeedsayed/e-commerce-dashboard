@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Trash } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import EditProduct from "./EditBlog";
 import { Button, Flex } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
+import EditBlog from "./EditBlog";
 
 const BlogsTableActions = ({ blogId }: { blogId: string }) => {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
@@ -40,7 +40,7 @@ const BlogsTableActions = ({ blogId }: { blogId: string }) => {
             <Trash className="size-4" />
           </Button>
         </Tooltip>
-        <EditProduct blogId={blogId} />
+        <EditBlog blogId={blogId} />
       </Flex>
       <Modal
         isOpen={deleteModalIsOpen}

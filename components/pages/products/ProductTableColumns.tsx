@@ -2,7 +2,7 @@ import { IProduct } from "@/types";
 import Image from "next/image";
 import ProductTableActions from "./ProductTableActions";
 import { Badge } from "@chakra-ui/react";
-import { TColumn } from "@/components/common/Table";
+import { TColumn } from "@/components/ui/Table";
 
 export const columns: TColumn<IProduct>[] = [
   {
@@ -26,6 +26,7 @@ export const columns: TColumn<IProduct>[] = [
     id: "price",
     header: "price",
     accessorKey: "price",
+    filterType:"range",
     cell: (row: IProduct) => (
       <p>
         ${row.price - row.discount}{" "}

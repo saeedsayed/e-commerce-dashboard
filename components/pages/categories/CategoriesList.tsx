@@ -1,5 +1,5 @@
 "use client";
-import Table from "@/components/common/Table";
+import Table from "@/components/ui/Table";
 import { ICategory } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
@@ -31,12 +31,15 @@ const CategoriesList = () => {
     <>
       <Table
         columns={columns}
-        isLoading={isLoading || isRefetching}
+        isLoading={isLoading}
+        isRefresh={isRefetching}
         data={data?.data || []}
         currentPage={1}
         pagesCount={1}
         numberOfAllItems={data?.result || 0}
         pageSize={data?.data?.length as number}
+        showRefreshBtn
+        queryKeys={["categories"]}
       />
     </>
   );

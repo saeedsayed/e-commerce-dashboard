@@ -57,7 +57,6 @@ export interface Product {
   versions: Version[];
   rating: number;
   reviewsCount: number;
-  reviews: any[];
   createdAt: Date;
   updatedAt: Date;
 }

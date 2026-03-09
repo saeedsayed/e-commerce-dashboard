@@ -4,5 +4,5 @@ export interface IArticle {
     thumbnail: string;
     content:   string;
     author:    string;
-    tags:      any[];
+    tags:      string[];
 }

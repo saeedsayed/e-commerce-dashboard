@@ -1,16 +1,19 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Pagination from "../ui/Pagination";
-import Search from "../ui/Search";
-import { AArrowDown, AArrowUp, MoveVertical } from "lucide-react";
+import Pagination from "./Pagination";
+import Search from "./TableFilter";
+import { AArrowDown, AArrowUp, MoveVertical, RefreshCcw } from "lucide-react";
 import {
   Box,
   Button,
   Center,
   Table as ChakraTable,
+  Span,
   Spinner,
 } from "@chakra-ui/react";
+import { Tooltip } from "./tooltip";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type TColumn<T> = {
   id: string;
@@ -19,6 +22,7 @@ export type TColumn<T> = {
   cell?: (row: T) => React.ReactNode;
   sortable?: boolean;
   filterable?: boolean;
+  filterType?: "text" | "range" | "date";
 };
 
 type Props<T = Record<string, unknown>> = {
@@ -29,6 +33,10 @@ type Props<T = Record<string, unknown>> = {
   pagesCount: number;
   currentPage: number;
   isLoading?: boolean;
+  isRefresh?: boolean;
+  showRefreshBtn?: boolean;
+  queryKeys?: string[];
+  onRefresh?: () => void;
 };
 
 type SortDirection = "asc" | "desc";
@@ -68,11 +76,23 @@ function Table<T = Record<string, unknown>>({
   pagesCount,
   currentPage,
   isLoading,
+  isRefresh,
+  showRefreshBtn,
+  queryKeys,
+  onRefresh,
 }: Props<T>) {
   const [sortConfig, setSortConfig] = useState<{
     id: string;
     direction: SortDirection;
   } | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const handleRefresh = (arrOfQueryKey: string[]) => {
+    if (arrOfQueryKey)
+      queryClient.invalidateQueries({ queryKey: arrOfQueryKey });
+    onRefresh?.();
+  };
 
   const handleSort = (columnId: string, sortable = true) => {
     if (!sortable) return;
@@ -115,20 +135,37 @@ function Table<T = Record<string, unknown>>({
   }, [data, columns, sortConfig]);
   return (
     <Box position={"relative"}>
-      <div className="mb-3 text-end">
-        {/* {sortConfig && ( */}
-        <Button
-          type="button"
-          size={"xs"}
-          variant={"outline"}
-          onClick={() => {
-            setSortConfig(null);
-          }}
-        >
-          Reset filters
-        </Button>
-        {/* )} */}
-      </div>
+      <Box textAlign={"end"}>
+        {sortConfig && (
+          <Button
+            type="button"
+            transition={"all .3s"}
+            size={"xs"}
+            variant={"outline"}
+            me={3}
+            onClick={() => {
+              setSortConfig(null);
+            }}
+          >
+            Reset filters
+          </Button>
+        )}
+        <Tooltip content="Refresh Data">
+          {(showRefreshBtn || isRefresh) && (
+            <Button
+              type="button"
+              size={"xs"}
+              variant={"outline"}
+              disabled={!showRefreshBtn}
+              onClick={() => handleRefresh(queryKeys || [])}
+            >
+              <Span animation={isRefresh ? "spin" : "none"}>
+                <RefreshCcw />
+              </Span>
+            </Button>
+          )}
+        </Tooltip>
+      </Box>
       {isLoading && (
         <Box pos="absolute" inset="0" bg="bg/80" zIndex={10}>
           <Center h="full">
@@ -154,7 +191,7 @@ function Table<T = Record<string, unknown>>({
                 return (
                   <ChakraTable.ColumnHeader key={column.id}>
                     <Button
-                    variant={"ghost"}
+                      variant={"ghost"}
                       type="button"
                       size={"sm"}
                       disabled={!sortable}
@@ -185,8 +222,9 @@ function Table<T = Record<string, unknown>>({
                   <ChakraTable.ColumnHeader key={`${column.id}-filter`}>
                     {filterable ? (
                       <Search
-                        searchBy={column.accessorKey}
+                        filterBy={column.accessorKey}
                         placeholder={`Filter ${column.header}`}
+                        filterType={column.filterType}
                       />
                     ) : null}
                   </ChakraTable.ColumnHeader>

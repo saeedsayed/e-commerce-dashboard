@@ -43,7 +43,7 @@ const Modal: FC<ModalProps> = ({
   children,
   confirmText = "OK",
   cancelText = "Cancel",
-  onConfirm = () => {},
+  onConfirm,
   onCancel = () => {},
   variant = "primary",
   showCloseButton = true,
@@ -58,6 +58,7 @@ const Modal: FC<ModalProps> = ({
       open={isOpen}
       size={size}
       onOpenChange={onCancel}
+      placement={"center"}
       scrollBehavior="inside"
     >
       {/* backdrop */}
@@ -65,7 +66,7 @@ const Modal: FC<ModalProps> = ({
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content maxH={"full"}>
+          <Dialog.Content maxH={"calc(100% - 2rem)"}>
             {title && (
               <Dialog.Header>
                 <Dialog.Title>{title}</Dialog.Title>
@@ -76,20 +77,21 @@ const Modal: FC<ModalProps> = ({
               {message}
               {children}
             </Dialog.Body>
-            <Dialog.Footer>
-              <Dialog.ActionTrigger asChild>
-                <Button variant="outline">{cancelText}</Button>
-              </Dialog.ActionTrigger>
-
-              <Button
-                type={formId ? "submit" : "button"}
-                form={formId}
-                onClick={onConfirm}
-                bg={variantClasses[variant]}
-              >
-                {confirmText}
-              </Button>
-            </Dialog.Footer>
+            {!!onConfirm && (
+              <Dialog.Footer>
+                <Dialog.ActionTrigger asChild>
+                  <Button variant="outline">{cancelText}</Button>
+                </Dialog.ActionTrigger>
+                <Button
+                  type={formId ? "submit" : "button"}
+                  form={formId}
+                  onClick={onConfirm}
+                  bg={variantClasses[variant]}
+                >
+                  {confirmText}
+                </Button>
+              </Dialog.Footer>
+            )}
             {showCloseButton && (
               <Dialog.CloseTrigger asChild>
                 <CloseButton size="sm" />

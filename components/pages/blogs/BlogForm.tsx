@@ -54,7 +54,7 @@ const BlogForm = ({ onSubmit, isSubmitting, initialValues, formId }: Props) => {
         id={formId}
         className="flex flex-col gap-2 w-full"
       >
-        <Grid templateColumns={"repeat(3, 1fr)"} gap={8} alignItems={"end"}>
+        <Grid templateColumns={"repeat(4, 1fr)"} gap={8} alignItems={"end"}>
           <Input
             id="title"
             label={"blog title"}
@@ -62,6 +62,15 @@ const BlogForm = ({ onSubmit, isSubmitting, initialValues, formId }: Props) => {
             err={!!errors.title}
             errMes={errors.title?.message}
             register={register("title")}
+            disabled={isSubmitting}
+          />
+          <Input
+            id="author"
+            label={"blog author"}
+            placeholder={"enter the blog author"}
+            err={!!errors.author}
+            errMes={errors.author?.message}
+            register={register("author")}
             disabled={isSubmitting}
           />
           {/* thumbnail */}

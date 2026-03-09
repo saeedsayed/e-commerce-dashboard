@@ -1,25 +1,25 @@
 "use client";
 import Table from "@/components/ui/Table";
-import { IPagination, IProduct } from "@/types";
+import { IOrder, IPagination } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { columns } from "./ProductTableColumns";
+import { columns } from "./OrdersTableColumns";
 
-const ProductList = () => {
+const OrdersList = () => {
   const params = useSearchParams();
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["orders"],
     queryFn: async () => {
       const {
-        data: { data, results, paginate },
+        data: { data: orders, results, paginate },
       } = await axiosInstance<{
-        data: IProduct[];
-        results: number;
+        data: IOrder[];
         paginate: IPagination;
-      }>(`/products?${params.toString()}`);
-      return { data, results, paginate };
+        results: number;
+      }>(`/orders?${params.toString()}`);
+      return { orders, results, paginate };
     },
   });
 
@@ -33,16 +33,16 @@ const ProductList = () => {
         columns={columns}
         isLoading={isLoading}
         isRefresh={isRefetching}
-        data={data?.data || []}
-        currentPage={data?.paginate.currentPage as number}
-        pagesCount={data?.paginate.totalPages as number}
+        data={data?.orders || []}
+        currentPage={data?.paginate?.currentPage || 1}
+        pagesCount={data?.paginate?.totalPages || 1}
         numberOfAllItems={data?.results || 0}
-        pageSize={data?.paginate.limit as number}
+        pageSize={data?.paginate?.limit || 0}
         showRefreshBtn
-        queryKeys={["products"]}
+        queryKeys={["orders"]}
       />
     </>
   );
 };
 
-export default ProductList;
+export default OrdersList;

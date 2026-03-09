@@ -95,6 +95,7 @@ const EditBlog = ({ blogId }: { blogId: string }) => {
               thumbnail: blog?.thumbnail || "",
               content: blog?.content || "",
               tags: blog?.tags || [],
+              author: blog?.author || "",
             }}
           />
         )}
