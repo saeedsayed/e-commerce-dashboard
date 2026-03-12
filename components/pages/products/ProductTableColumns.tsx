@@ -2,7 +2,7 @@ import { IProduct } from "@/types";
 import Image from "next/image";
 import ProductTableActions from "./ProductTableActions";
 import { Badge } from "@chakra-ui/react";
-import { TColumn } from "@/components/ui/Table";
+import { TColumn } from "@/components/ui/table/Table";
 
 export const columns: TColumn<IProduct>[] = [
   {
@@ -26,7 +26,9 @@ export const columns: TColumn<IProduct>[] = [
     id: "price",
     header: "price",
     accessorKey: "price",
-    filterType:"range",
+    filterType: "range",
+    maxRange: 9999,
+    rangeStep:0.1,
     cell: (row: IProduct) => (
       <p>
         ${row.price - row.discount}{" "}
@@ -40,6 +42,8 @@ export const columns: TColumn<IProduct>[] = [
     id: "discount",
     header: "Discount",
     accessorKey: "discount",
+    filterType: "range",
+    maxRange: 999,
     cell: (row: IProduct) =>
       row.discount > 0 ? (
         <Badge colorPalette={"cyan"}>-${row.discount}</Badge>
@@ -47,7 +51,13 @@ export const columns: TColumn<IProduct>[] = [
         <Badge colorPalette={"blue"}>No Discount</Badge>
       ),
   },
-  { id: "stock", header: "Stock", accessorKey: "stock" },
+  {
+    id: "stock",
+    header: "Stock",
+    accessorKey: "stock",
+    filterType: "range",
+    maxRange: 999,
+  },
   {
     id: "category",
     header: "Category",

@@ -166,6 +166,7 @@ const ProductForm = ({
         <Flex gap={2}>
           <NumberInput
             name="price"
+            label="Price"
             control={control}
             err={!!errors.price}
             min={0}
@@ -174,6 +175,7 @@ const ProductForm = ({
           />
           <NumberInput
             name="discount"
+            label="Discount"
             control={control}
             err={!!errors.discount}
             min={0}
@@ -183,6 +185,7 @@ const ProductForm = ({
         </Flex>
         <NumberInput
           name="stock"
+          label="Stock"
           control={control}
           err={!!errors.stock}
           min={0}

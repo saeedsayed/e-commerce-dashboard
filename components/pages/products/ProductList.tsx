@@ -1,5 +1,5 @@
 "use client";
-import Table from "@/components/ui/Table";
+import Table from "@/components/ui/table/Table";
 import { IPagination, IProduct } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";

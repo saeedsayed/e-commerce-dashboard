@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import Pagination from "./Pagination";
+import Pagination from "../Pagination";
 import Search from "./TableFilter";
 import { AArrowDown, AArrowUp, MoveVertical, RefreshCcw } from "lucide-react";
 import {
@@ -12,7 +12,7 @@ import {
   Span,
   Spinner,
 } from "@chakra-ui/react";
-import { Tooltip } from "./tooltip";
+import { Tooltip } from "../tooltip";
 import { useQueryClient } from "@tanstack/react-query";
 
 export type TColumn<T> = {
@@ -23,6 +23,8 @@ export type TColumn<T> = {
   sortable?: boolean;
   filterable?: boolean;
   filterType?: "text" | "range" | "date";
+  maxRange?: number;
+  rangeStep?: number;
 };
 
 type Props<T = Record<string, unknown>> = {
@@ -134,7 +136,7 @@ function Table<T = Record<string, unknown>>({
     });
   }, [data, columns, sortConfig]);
   return (
-    <Box position={"relative"}>
+    <Box position={"relative"} cursor={isRefresh?"progress !important":"default"}>
       <Box textAlign={"end"}>
         {sortConfig && (
           <Button
@@ -225,6 +227,8 @@ function Table<T = Record<string, unknown>>({
                         filterBy={column.accessorKey}
                         placeholder={`Filter ${column.header}`}
                         filterType={column.filterType}
+                        maxRange={column.maxRange}
+                        rangeStep={column.rangeStep}
                       />
                     ) : null}
                   </ChakraTable.ColumnHeader>

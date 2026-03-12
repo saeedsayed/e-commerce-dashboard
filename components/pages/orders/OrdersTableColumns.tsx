@@ -1,5 +1,5 @@
 import { IOrder } from "@/types";
-import { TColumn } from "@/components/ui/Table";
+import { TColumn } from "@/components/ui/table/Table";
 import { HStack, TagLabel, TagRoot, Text } from "@chakra-ui/react";
 
 export const columns: TColumn<IOrder>[] = [

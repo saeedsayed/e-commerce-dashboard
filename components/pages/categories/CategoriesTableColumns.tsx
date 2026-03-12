@@ -1,6 +1,6 @@
 import { ICategory } from "@/types";
 import Image from "next/image";
-import { TColumn } from "@/components/ui/Table";
+import { TColumn } from "@/components/ui/table/Table";
 import CategoriesTableActions from "./CategoriesTableActions";
 
 export const columns: TColumn<ICategory>[] = [

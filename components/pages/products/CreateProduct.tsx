@@ -40,6 +40,7 @@ const CreateProduct = () => {
         onCancel={() => {
           setModalIsOpen(false);
         }}
+        onConfirm={() => {}}
         title="Create a new product"
         formId="createProductForm"
         classes="w-lg"

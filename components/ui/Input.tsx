@@ -4,11 +4,12 @@ import {
   Input as ChakraInput,
   Field,
   ConditionalValue,
+  InputProps,
 } from "@chakra-ui/react";
 import { PasswordInput } from "./password-input";
 
-interface InputProps extends Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
+interface IInputProps extends Omit<
+  InputProps & React.RefAttributes<HTMLInputElement>,
   "size"
 > {
   label?: string;
@@ -19,7 +20,7 @@ interface InputProps extends Omit<
   size?: ConditionalValue<"sm" | "md" | "lg" | "xl" | "2xl" | "2xs" | "xs">;
 }
 
-const Input: React.FC<InputProps> = ({
+const Input: React.FC<IInputProps> = ({
   label,
   type = "text",
   register,
