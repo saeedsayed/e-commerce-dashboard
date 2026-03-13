@@ -43,6 +43,7 @@ const RangeSlider = ({
       <HStack mb={2}>
         <NumberInput
           flex={1}
+          min={0}
           label={minValLabel}
           name="rangeMinVal"
           value={`${realValues[0]}`}

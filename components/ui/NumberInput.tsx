@@ -1,8 +1,17 @@
 import React from "react";
 import { NumberInput as ChakraNumberInput, Field } from "@chakra-ui/react";
-import { Controller, Control, FieldValues, Path } from "react-hook-form";
+import {
+  Controller,
+  Control,
+  FieldValues,
+  Path,
+  PathValue,
+} from "react-hook-form";
 
-interface NumberInputProps<T extends FieldValues> {
+interface NumberInputProps<T extends FieldValues> extends Omit<
+  ChakraNumberInput.RootProps,
+  "defaultValue"
+> {
   name: Path<T>;
   control?: Control<T>;
   label?: string;
@@ -27,9 +36,7 @@ function NumberInput<T extends FieldValues>({
   errMes,
   width = "100%",
   ...rest
-}: NumberInputProps<T> &
-  ChakraNumberInput.RootProps &
-  React.RefAttributes<HTMLDivElement>) {
+}: NumberInputProps<T>) {
   return (
     <Field.Root invalid={err}>
       {label && <Field.Label>{label}</Field.Label>}
@@ -37,7 +44,11 @@ function NumberInput<T extends FieldValues>({
         <Controller
           name={name}
           control={control}
-          defaultValue={defaultValue}
+          defaultValue={
+            defaultValue as
+              | PathValue<T, Path<T> & (number | undefined)>
+              | undefined
+          }
           render={({ field }) => (
             <ChakraNumberInput.Root
               width={width}
@@ -58,7 +69,7 @@ function NumberInput<T extends FieldValues>({
         />
       ) : (
         <ChakraNumberInput.Root
-          defaultValue={defaultValue || "0"}
+          defaultValue={String(defaultValue) || "0"}
           width={width}
           min={min}
           max={max}
