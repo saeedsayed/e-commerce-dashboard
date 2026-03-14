@@ -15,11 +15,16 @@ import Link from "@tiptap/extension-link";
 import TextEditorInsertImage from "./TextEditorInsertImage";
 
 type Props = {
-  onChange?: (v: string) => void;
   defaultValue: string;
+  placeholder?: string;
+  onChange?: (v: string) => void;
 };
 
-const TextEditor = ({ onChange, defaultValue }: Props) => {
+const TextEditor = ({
+  onChange,
+  defaultValue,
+  placeholder = "Start typing your content here...",
+}: Props) => {
   const [content, setContent] = useState<string>(defaultValue || "");
 
   const editor = useEditor({
@@ -35,7 +40,7 @@ const TextEditor = ({ onChange, defaultValue }: Props) => {
         multicolor: true,
       }),
       Placeholder.configure({
-        placeholder: "Start typing your content here...",
+        placeholder,
       }),
       Image,
       CharacterCount.configure({

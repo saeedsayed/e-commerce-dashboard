@@ -23,9 +23,11 @@ const RangeSlider = ({
   ...rest
 }: Props & Slider.RootProps & React.RefAttributes<HTMLDivElement>) => {
   const [realValues, setRealValues] = useState<number[]>(defaultValue);
-  const getRangeValue = (RealValues: number[]): number[] => {
-    const RangeValue = RealValues.map((RV) => +((RV / maxVal) * 100).toFixed());
-    return RangeValue;
+
+  const getRangeValue = (realValues: number[]): number[] => {
+    const rangeValue = realValues.map((RV) => +((RV / maxVal) * 100).toFixed());
+    if (rangeValue[1] <= 1) rangeValue[1] = 2;
+    return rangeValue;
   };
   const changeRangeValue = (newRangeValue: number[]) => {
     const newRealValues = newRangeValue.map(
@@ -51,6 +53,7 @@ const RangeSlider = ({
         />
         <NumberInput
           flex={1}
+          min={1}
           label={maxValLabel}
           name="rangeMaxVal"
           value={`${realValues[1]}`}

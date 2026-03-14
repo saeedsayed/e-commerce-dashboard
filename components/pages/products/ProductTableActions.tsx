@@ -1,12 +1,12 @@
 import Modal from "@/components/ui/Modal";
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Trash } from "lucide-react";
+import { Edit, EyeIcon, Trash } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import EditProduct from "./EditProduct";
 import { Button, Flex } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
+import { Link } from "@/i18n/navigation";
 
 const ProductTableActions = ({ productId }: { productId: string }) => {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
@@ -29,6 +29,18 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
   return (
     <>
       <Flex gap={2}>
+        <Tooltip content="View Detail" showArrow>
+          <Link href={`products/${productId}`}>
+            <Button
+              size={"xs"}
+              variant={"outline"}
+              borderColor={"green.border"}
+              color={"green.border"}
+            >
+              <EyeIcon className="size-4" />
+            </Button>
+          </Link>
+        </Tooltip>
         <Tooltip content="Delete" showArrow>
           <Button
             onClick={() => setDeleteModalIsOpen(true)}
@@ -40,7 +52,18 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
             <Trash className="size-4" />
           </Button>
         </Tooltip>
-        <EditProduct productId={productId} />
+        <Tooltip content="Edit" showArrow>
+          <Link href={`products/edit/${productId}`}>
+            <Button
+              size={"xs"}
+              variant={"outline"}
+              borderColor={"blue.border"}
+              color={"blue.border"}
+            >
+              <Edit className="size-4" />
+            </Button>
+          </Link>
+        </Tooltip>
       </Flex>
       <Modal
         isOpen={deleteModalIsOpen}

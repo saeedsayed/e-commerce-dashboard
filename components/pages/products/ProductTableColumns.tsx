@@ -28,7 +28,7 @@ export const columns: TColumn<IProduct>[] = [
     accessorKey: "price",
     filterType: "range",
     maxRange: 9999,
-    rangeStep:0.1,
+    rangeStep: 0.1,
     cell: (row: IProduct) => (
       <p>
         ${row.price - row.discount}{" "}
@@ -64,26 +64,10 @@ export const columns: TColumn<IProduct>[] = [
     accessorKey: "category",
     cell: (row: IProduct) =>
       row.category.map((category) => (
-        <p key={category} className="badge badge-info mx-1 badge-xs">
+        <Badge key={category} me={1} variant={"outline"} colorPalette={"blue"}>
           {category}
-        </p>
+        </Badge>
       )),
-  },
-  {
-    id: "versions",
-    header: "Versions",
-    accessorKey: "versions.versionName",
-    filterable: false,
-    cell: (row: IProduct) =>
-      row.versions.length ? (
-        row.versions.map((version) => (
-          <Badge key={version.versionName} colorPalette={"green"}>
-            {version?.versionName || "no versions"}
-          </Badge>
-        ))
-      ) : (
-        <Badge colorPalette={"blue"}>No Versions</Badge>
-      ),
   },
   {
     id: "actions",

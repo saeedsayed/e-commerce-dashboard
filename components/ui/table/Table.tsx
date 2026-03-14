@@ -136,7 +136,10 @@ function Table<T = Record<string, unknown>>({
     });
   }, [data, columns, sortConfig]);
   return (
-    <Box position={"relative"} cursor={isRefresh?"progress !important":"default"}>
+    <Box
+      position={"relative"}
+      cursor={isRefresh ? "progress !important" : "default"}
+    >
       <Box textAlign={"end"}>
         {sortConfig && (
           <Button

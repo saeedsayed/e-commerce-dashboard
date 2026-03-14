@@ -1,19 +1,14 @@
 "use client";
-
-import { Plus } from "lucide-react";
-import { useState } from "react";
-import CreateProductForm from "./ProductForm";
 import { TCreateProductForm } from "@/schemas/createProduct";
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
-import Modal from "@/components/ui/Modal";
-import { Button } from "@chakra-ui/react";
+import ProductForm from "./ProductForm";
+import { useRouter } from "@/i18n/navigation";
 
 const CreateProduct = () => {
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const createProduct = async (data: TCreateProductForm) => {
     await axiosInstance.post("/products", data);
@@ -23,7 +18,7 @@ const CreateProduct = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Product created successfully");
-      setModalIsOpen(false);
+      router.push("/products");
     },
     onError: (err) => {
       console.log("err", err);
@@ -32,26 +27,7 @@ const CreateProduct = () => {
   });
   return (
     <>
-      <Button onClick={() => setModalIsOpen(true)}>
-        Create Product <Plus />
-      </Button>
-      <Modal
-        isOpen={modalIsOpen}
-        onCancel={() => {
-          setModalIsOpen(false);
-        }}
-        onConfirm={() => {}}
-        title="Create a new product"
-        formId="createProductForm"
-        classes="w-lg"
-        confirmText={isPending ? "Creating..." : "Create"}
-      >
-        <CreateProductForm
-          onSubmit={(data) => mutate(data)}
-          isSubmitting={isPending}
-          formId="createProductForm"
-        />
-      </Modal>
+      <ProductForm onSubmit={(data) => mutate(data)} isSubmitting={isPending} />
     </>
   );
 };

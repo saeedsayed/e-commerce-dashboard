@@ -7,6 +7,7 @@ import {
   LucideProps,
   Newspaper,
   Package,
+  PackagePlus,
   Settings,
   TicketPercent,
   Truck,
@@ -32,6 +33,13 @@ export const DashboardRoutes: TDashboardRoute[] = [
     localKey: "products",
     path: "/products",
     icon: Package,
+    subRotes: [
+      {
+        localKey: "create_product",
+        path: "/products/create",
+        icon: PackagePlus,
+      },
+    ],
   },
   {
     localKey: "orders",

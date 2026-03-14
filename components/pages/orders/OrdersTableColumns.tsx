@@ -13,6 +13,7 @@ export const columns: TColumn<IOrder>[] = [
     id: "orderDate",
     header: "Order Date",
     accessorKey: "createdAT",
+    filterable: false,
     cell(row) {
       return (
         <Text>
@@ -35,7 +36,8 @@ export const columns: TColumn<IOrder>[] = [
     id: "total",
     header: "Total",
     accessorKey: "pricing.total",
-    filterable: false,
+    filterType: "range",
+    maxRange: 9999,
   },
   {
     id: "status",

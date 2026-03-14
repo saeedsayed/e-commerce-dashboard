@@ -1,20 +1,16 @@
 "use client";
-
-import { Edit } from "lucide-react";
-import { useEffect, useState } from "react";
 import { TCreateProductForm } from "@/schemas/createProduct";
 import axiosInstance from "@/utils/axiosInstance";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { IProduct } from "@/types";
-import Modal from "@/components/ui/Modal";
-import { Tooltip } from "@/components/ui/tooltip";
-import { AbsoluteCenter, Box, Button, Spinner } from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Spinner } from "@chakra-ui/react";
 import ProductForm from "./ProductForm";
+import { useRouter } from "@/i18n/navigation";
 
 const EditProduct = ({ productId }: { productId: string }) => {
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const router = useRouter();
   //   get target product
   const getTargetProduct = async () => {
     const {
@@ -22,12 +18,9 @@ const EditProduct = ({ productId }: { productId: string }) => {
     } = await axiosInstance.get<{ data: IProduct }>(`/products/${productId}`);
     return product;
   };
-  const {
-    data: product,
-    mutate: getProduct,
-    isPending: isGetProduct,
-  } = useMutation({
-    mutationFn: getTargetProduct,
+  const { data: product, isPending: isGetProduct } = useQuery({
+    queryKey: ["single_product", productId],
+    queryFn: getTargetProduct,
   });
 
   // update Product function
@@ -39,70 +32,37 @@ const EditProduct = ({ productId }: { productId: string }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Product updated successfully");
-      setModalIsOpen(false);
+      router.push(`/products/${productId}`);
     },
     onError: (err) => {
       console.log("err", err);
       toast.error("failed to update product! try again");
     },
   });
-
-  //   get initial values after open modal
-  useEffect(() => {
-    if (productId && modalIsOpen) {
-      getProduct();
-    }
-  }, [productId, modalIsOpen, getProduct]);
   return (
     <>
-      <Tooltip content="Edit" showArrow>
-        <Button
-          onClick={() => {
-            setModalIsOpen(true);
+      {isGetProduct ? (
+        <Box height={80}>
+          <AbsoluteCenter>
+            <Spinner size={"xl"} />
+          </AbsoluteCenter>
+        </Box>
+      ) : (
+        <ProductForm
+          onSubmit={(data) => mutate(data)}
+          isSubmitting={isPending}
+          initialValues={{
+            title: product?.title || "",
+            discount: product?.discount,
+            price: product?.price || 0,
+            description: product?.description || "",
+            thumbnail: product?.thumbnail || "",
+            category: product?.category || [],
+            stock: product?.stock || 0,
+            images: product?.images,
           }}
-          size={"xs"}
-          variant={"outline"}
-          borderColor={"blue.border"}
-          color={"blue.border"}
-        >
-          <Edit className="size-4" />
-        </Button>
-      </Tooltip>
-      <Modal
-        isOpen={modalIsOpen}
-        onCancel={() => {
-          setModalIsOpen(false);
-        }}
-        onConfirm={() => {}}
-        title="Update a new product"
-        formId="updateProductForm"
-        // classes="w-lg"
-        confirmText={isPending ? "Updating..." : "Update"}
-      >
-        {isGetProduct ? (
-          <Box height={80}>
-            <AbsoluteCenter>
-              <Spinner size={"xl"} />
-            </AbsoluteCenter>
-          </Box>
-        ) : (
-          <ProductForm
-            onSubmit={(data) => mutate(data)}
-            isSubmitting={isPending}
-            formId="updateProductForm"
-            initialValues={{
-              title: product?.title || "",
-              discount: product?.discount,
-              price: product?.price || 0,
-              description: product?.description || "",
-              thumbnail: product?.thumbnail || "",
-              category: product?.category || [],
-              stock: product?.stock || 0,
-              images: product?.images,
-            }}
-          />
-        )}
-      </Modal>
+        />
+      )}
     </>
   );
 };

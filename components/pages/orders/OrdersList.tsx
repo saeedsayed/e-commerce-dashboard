@@ -13,13 +13,14 @@ const OrdersList = () => {
     queryKey: ["orders"],
     queryFn: async () => {
       const {
-        data: { data: orders, results, paginate },
+        data: { data: orders, result, paginate },
       } = await axiosInstance<{
         data: IOrder[];
         paginate: IPagination;
-        results: number;
+        result: number;
       }>(`/orders?${params.toString()}`);
-      return { orders, results, paginate };
+      console.log("data", data);
+      return { orders, result, paginate };
     },
   });
 
@@ -36,7 +37,7 @@ const OrdersList = () => {
         data={data?.orders || []}
         currentPage={data?.paginate?.currentPage || 1}
         pagesCount={data?.paginate?.totalPages || 1}
-        numberOfAllItems={data?.results || 0}
+        numberOfAllItems={data?.result || 0}
         pageSize={data?.paginate?.limit || 0}
         showRefreshBtn
         queryKeys={["orders"]}
