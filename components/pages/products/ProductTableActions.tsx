@@ -1,36 +1,32 @@
-import Modal from "@/components/ui/Modal";
-import axiosInstance from "@/utils/axiosInstance";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Edit, EyeIcon, Trash } from "lucide-react";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { Button, Flex } from "@chakra-ui/react";
+import { Edit, EyeIcon } from "lucide-react";
+import { Button, HStack } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Link } from "@/i18n/navigation";
+import { IProduct } from "@/types";
 
-const ProductTableActions = ({ productId }: { productId: string }) => {
-  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
-  const queryClient = useQueryClient();
-  const deleteProduct = async () => {
-    await axiosInstance.delete(`/products/${productId}`);
-  };
-  const { mutate: handleDelete, isPending } = useMutation({
-    mutationFn: deleteProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      toast.success("Product deleted successfully");
-      setDeleteModalIsOpen(false);
-    },
-    onError: (err) => {
-      console.log("err", err);
-      toast.error("failed to delete product! try again");
-    },
-  });
+const ProductTableActions = ({ product }: { product: IProduct }) => {
+  // const queryClient = useQueryClient();
+  // const updateShippingMethodStatus = async (newStatus: boolean) => {
+  //   await axiosInstance.put(`/shipping/${shippingMethod._id}`, {
+  //     isActive: newStatus,
+  //   });
+  // };
+  // const { mutate: handleStatusSwitch, isPending } = useMutation({
+  //   mutationFn: updateShippingMethodStatus,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ["shipping"] });
+  //     toast.success("Shipping method deleted successfully");
+  //   },
+  //   onError: (err) => {
+  //     console.log("err", err);
+  //     toast.error("failed to delete shipping method! try again");
+  //   },
+  // });
   return (
     <>
-      <Flex gap={2}>
+      <HStack gap={2}>
         <Tooltip content="View Detail" showArrow>
-          <Link href={`products/${productId}`}>
+          <Link href={`products/${product._id}`}>
             <Button
               size={"xs"}
               variant={"outline"}
@@ -41,19 +37,8 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
             </Button>
           </Link>
         </Tooltip>
-        <Tooltip content="Delete" showArrow>
-          <Button
-            onClick={() => setDeleteModalIsOpen(true)}
-            size={"xs"}
-            variant={"outline"}
-            borderColor={"red.border"}
-            color={"red.border"}
-          >
-            <Trash className="size-4" />
-          </Button>
-        </Tooltip>
         <Tooltip content="Edit" showArrow>
-          <Link href={`products/edit/${productId}`}>
+          <Link href={`products/edit/${product._id}`}>
             <Button
               size={"xs"}
               variant={"outline"}
@@ -64,16 +49,18 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
             </Button>
           </Link>
         </Tooltip>
-      </Flex>
-      <Modal
-        isOpen={deleteModalIsOpen}
-        message="Are you absolutely certain you want to permanently remove this product? Once deleted, this action cannot be reversed."
-        confirmText={isPending ? "Deleting..." : "Delete"}
-        onCancel={() => setDeleteModalIsOpen(false)}
-        onConfirm={() => handleDelete()}
-        variant="danger"
-        classes="max-w-md"
-      />
+        {/* <Tooltip content="Switch Status" showArrow>
+          <Span>
+            <Switch.Root
+              checked={product?.isActive}
+              onCheckedChange={(e) => handleStatusSwitch(e.checked)}
+            >
+              <Switch.HiddenInput />
+              {isPending ? <Spinner /> : <Switch.Control />}
+            </Switch.Root>
+          </Span>
+        </Tooltip> */}
+      </HStack>
     </>
   );
 };

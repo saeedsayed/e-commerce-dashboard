@@ -11,9 +11,9 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(async (config) => {
   let token: string;
   if (typeof window === "undefined") {
-    token = (await getCookieServer("token")) as string;
+    token = (await getCookieServer("token_dashboard")) as string;
   } else {
-    token = getCookie("token") as string;
+    token = getCookie("token_dashboard") as string;
   }
   if (!!config && !!config.headers) {
     config.headers.Authorization = `Bearer ${token}`;

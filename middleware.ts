@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 const PUBLIC_ROUTES = ["/login"];
 
 function isAuthenticated(request: NextRequest): boolean {
-  const token = request.cookies.get("token");
+  const token = request.cookies.get("token_dashboard");
   return !!token?.value;
 }
 

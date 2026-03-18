@@ -12,11 +12,11 @@ import { ICategory } from "@/types";
 const CategoriesTableActions = ({ category }: { category: ICategory }) => {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
-  const deleteProduct = async () => {
+  const deleteCategory = async () => {
     await axiosInstance.delete(`/categories/${category._id}`);
   };
   const { mutate: handleDelete, isPending } = useMutation({
-    mutationFn: deleteProduct,
+    mutationFn: deleteCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
       toast.success("category deleted successfully");

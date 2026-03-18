@@ -1,7 +1,7 @@
 import { IProduct } from "@/types";
 import Image from "next/image";
 import ProductTableActions from "./ProductTableActions";
-import { Badge } from "@chakra-ui/react";
+import { Badge, Center, RatingGroup } from "@chakra-ui/react";
 import { TColumn } from "@/components/ui/table/Table";
 
 export const columns: TColumn<IProduct>[] = [
@@ -69,6 +69,38 @@ export const columns: TColumn<IProduct>[] = [
         </Badge>
       )),
   },
+  {
+    id: "reviews_count",
+    header: "Reviews Count",
+    accessorKey: "reviewsCount",
+    filterable: false,
+    cell: (row: IProduct) => (
+      <Center>
+        <Badge variant={"subtle"} colorPalette={row.reviewsCount?"blue":"red"} mx={"auto"}>
+          {row.reviewsCount || "no Reviews"}
+        </Badge>
+      </Center>
+    ),
+  },
+  {
+    id: "rating",
+    header: "Rating",
+    accessorKey: "rating",
+    filterType: "range",
+    maxRange: 5,
+    cell: (row: IProduct) => (
+      <RatingGroup.Root
+        readOnly
+        count={5}
+        defaultValue={row.rating}
+        size="sm"
+        colorPalette={"yellow"}
+      >
+        <RatingGroup.HiddenInput />
+        <RatingGroup.Control />
+      </RatingGroup.Root>
+    ),
+  },  
   {
     id: "actions",
     header: "Actions",

@@ -5,31 +5,35 @@ import { useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { ICategory } from "@/types";
+import { IShippingMethod } from "@/types";
 import Modal from "@/components/ui/Modal";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Button } from "@chakra-ui/react";
-import { TCreateCategorySchema } from "@/schemas/createCategory";
-import CategoryForm from "./CategoryForm";
+import CategoryForm from "./ShippingMethodForm";
+import { TCreateShippingMethodSchema } from "@/schemas/createShippingMethod";
 
-const EditCategory = ({ category }: { category: ICategory }) => {
+const EditShippingMethod = ({
+  shippingMethod,
+}: {
+  shippingMethod: IShippingMethod;
+}) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // update Product function
-  const UpdateProduct = async (data: TCreateCategorySchema) => {
-    await axiosInstance.put(`/categories/${category?._id}`, data);
+  const UpdateProduct = async (data: TCreateShippingMethodSchema) => {
+    await axiosInstance.put(`/shipping/${shippingMethod?._id}`, data);
   };
   const { mutate, isPending } = useMutation({
     mutationFn: UpdateProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["categories"] });
-      toast.success("Category updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["shipping"] });
+      toast.success("Shipping method updated successfully");
       setModalIsOpen(false);
     },
     onError: (err) => {
       console.log("err", err);
-      toast.error("failed to update Category! try again");
+      toast.error("failed to update shipping method! try again");
     },
   });
   return (
@@ -63,9 +67,11 @@ const EditCategory = ({ category }: { category: ICategory }) => {
           isSubmitting={isPending}
           formId="updateProductForm"
           initialValues={{
-            name: category?.name || "",
-            description: category?.description || "",
-            image: category?.image || "",
+            name: shippingMethod?.name || "",
+            description: shippingMethod?.description || "",
+            cost: shippingMethod?.cost || 0,
+            estimatedDeliveryDays: shippingMethod?.estimatedDeliveryDays || 0,
+            regions: shippingMethod?.regions || [],
           }}
         />
       </Modal>
@@ -73,4 +79,4 @@ const EditCategory = ({ category }: { category: ICategory }) => {
   );
 };
 
-export default EditCategory;
+export default EditShippingMethod;

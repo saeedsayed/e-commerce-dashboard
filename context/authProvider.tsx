@@ -65,7 +65,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }) => {
     setUser(userInfo);
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    setCookie("token", token, {
+    setCookie("token_dashboard", token, {
       maxAge: rememberMe ? 7 * 24 * 60 * 60 : undefined,
     });
     setStatus("authenticated");
@@ -73,20 +73,20 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logoutFn = () => {
     localStorage.removeItem("userInfo");
-    deleteCookie("token");
+    deleteCookie("token_dashboard");
     setUser(null);
     setStatus("unauthenticated");
   };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("userInfo");
-    const token = getCookie("token");
+    const token = getCookie("token_dashboard");
     if (!!storedUser && !!token) {
       setUser(JSON.parse(storedUser));
       setStatus("authenticated");
     } else {
       localStorage.removeItem("userInfo");
-      deleteCookie("token");
+      deleteCookie("token_dashboard");
       setUser(null);
       setStatus("unauthenticated");
     }
