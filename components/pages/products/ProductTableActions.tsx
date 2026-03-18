@@ -2,9 +2,8 @@ import { Edit, EyeIcon } from "lucide-react";
 import { Button, HStack } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Link } from "@/i18n/navigation";
-import { IProduct } from "@/types";
 
-const ProductTableActions = ({ product }: { product: IProduct }) => {
+const ProductTableActions = ({ productId }: { productId: string }) => {
   // const queryClient = useQueryClient();
   // const updateShippingMethodStatus = async (newStatus: boolean) => {
   //   await axiosInstance.put(`/shipping/${shippingMethod._id}`, {
@@ -26,7 +25,7 @@ const ProductTableActions = ({ product }: { product: IProduct }) => {
     <>
       <HStack gap={2}>
         <Tooltip content="View Detail" showArrow>
-          <Link href={`products/${product._id}`}>
+          <Link href={`products/${productId}`}>
             <Button
               size={"xs"}
               variant={"outline"}
@@ -38,7 +37,7 @@ const ProductTableActions = ({ product }: { product: IProduct }) => {
           </Link>
         </Tooltip>
         <Tooltip content="Edit" showArrow>
-          <Link href={`products/edit/${product._id}`}>
+          <Link href={`products/edit/${productId}`}>
             <Button
               size={"xs"}
               variant={"outline"}
