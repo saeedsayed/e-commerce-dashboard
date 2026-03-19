@@ -1,27 +1,27 @@
 "use client";
 import Table from "@/components/ui/table/Table";
-import { IShippingMethod } from "@/types";
+import { ICoupon, IPagination } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { columns } from "./ShippingMethodsTableColumns";
+import { columns } from "./CouponsTableColumns";
 
-const ShippingMethodsList = () => {
+const CouponsList = () => {
   const params = useSearchParams();
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ["shipping"],
+    queryKey: ["coupon"],
     queryFn: async () => {
       const {
-        data: { data },
+        data: { data, paginate, result },
       } = await axiosInstance<{
-        data: IShippingMethod[];
-        // result: number;
-        // paginate: IPagination;
+        data: ICoupon[];
+        result: number;
+        paginate: IPagination;
       }>(
-        `/shipping?${!params.get("isActive") ? `isActive=all&` : ""}${params.toString()}`,
+        `/coupon?${!params.get("isActive") ? `isActive=all&` : ""}${params.toString()}`,
       );
-      return { data };
+      return { data, paginate, result };
     },
   });
 
@@ -36,15 +36,15 @@ const ShippingMethodsList = () => {
         isLoading={isLoading}
         isRefresh={isRefetching}
         data={data?.data || []}
-        currentPage={1}
-        pagesCount={1}
-        numberOfAllItems={data?.data?.length || 0}
-        pageSize={data?.data?.length as number}
+        currentPage={data?.paginate.currentPage as number}
+        pagesCount={data?.paginate.totalPages as number}
+        numberOfAllItems={data?.result || 0}
+        pageSize={data?.paginate.limit as number}
         showRefreshBtn
-        queryKeys={["shipping"]}
+        queryKeys={["coupon"]}
       />
     </>
   );
 };
 
-export default ShippingMethodsList;
+export default CouponsList;

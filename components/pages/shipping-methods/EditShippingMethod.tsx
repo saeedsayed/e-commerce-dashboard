@@ -9,8 +9,8 @@ import { IShippingMethod } from "@/types";
 import Modal from "@/components/ui/Modal";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Button } from "@chakra-ui/react";
-import CategoryForm from "./ShippingMethodForm";
 import { TCreateShippingMethodSchema } from "@/schemas/createShippingMethod";
+import ShippingMethodForm from "./ShippingMethodForm";
 
 const EditShippingMethod = ({
   shippingMethod,
@@ -62,7 +62,7 @@ const EditShippingMethod = ({
         // classes="w-lg"
         confirmText={isPending ? "Updating..." : "Update"}
       >
-        <CategoryForm
+        <ShippingMethodForm
           onSubmit={(data) => mutate(data)}
           isSubmitting={isPending}
           formId="updateProductForm"

@@ -1,5 +1,9 @@
 import React from "react";
-import { NumberInput as ChakraNumberInput, Field } from "@chakra-ui/react";
+import {
+  NumberInput as ChakraNumberInput,
+  Field,
+  InputGroup,
+} from "@chakra-ui/react";
 import {
   Controller,
   Control,
@@ -22,6 +26,8 @@ interface NumberInputProps<T extends FieldValues> extends Omit<
   err?: boolean;
   errMes?: string;
   width?: string | number;
+  startElement?: React.ReactNode;
+  endElement?: React.ReactNode;
 }
 
 function NumberInput<T extends FieldValues>({
@@ -35,6 +41,8 @@ function NumberInput<T extends FieldValues>({
   err,
   errMes,
   width = "100%",
+  startElement,
+  endElement,
   ...rest
 }: NumberInputProps<T>) {
   return (
@@ -63,7 +71,13 @@ function NumberInput<T extends FieldValues>({
               }}
             >
               <ChakraNumberInput.Control />
-              <ChakraNumberInput.Input onBlur={field.onBlur} />
+              <InputGroup
+                startElement={startElement}
+                endElement={endElement}
+                endElementProps={{ me: 3 }}
+              >
+                <ChakraNumberInput.Input onBlur={field.onBlur} />
+              </InputGroup>
             </ChakraNumberInput.Root>
           )}
         />
@@ -77,7 +91,9 @@ function NumberInput<T extends FieldValues>({
           {...rest}
         >
           <ChakraNumberInput.Control />
-          <ChakraNumberInput.Input />
+          <InputGroup startElement={startElement} endElement={endElement}>
+            <ChakraNumberInput.Input />
+          </InputGroup>
         </ChakraNumberInput.Root>
       )}
 
