@@ -25,17 +25,17 @@ const useTableFilter = () => {
 
       newParams.forEach(({ name, value }) => {
         const trimmedValue = value.trim();
-        const currentValue = params.get(name);
+        const currentValue = params.get(`table_filter_${name}`);
 
         if (!trimmedValue && !currentValue) return;
 
         if (!trimmedValue && currentValue) {
-          currentParams.delete(name);
+          currentParams.delete(`table_filter_${name}`);
           return;
         }
 
         if (trimmedValue !== currentValue) {
-          currentParams.set(name, trimmedValue);
+          currentParams.set(`table_filter_${name}`, trimmedValue);
         }
       });
 

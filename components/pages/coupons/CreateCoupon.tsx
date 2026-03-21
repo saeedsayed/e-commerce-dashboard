@@ -58,7 +58,7 @@ const CreateCoupon = () => {
           setModalIsOpen(false);
         }}
         onConfirm={() => {}}
-        title="Create a new category"
+        title="Create a new coupon"
         formId="createCouponForm"
         classes="w-lg"
         confirmText={isPending ? "Creating..." : "Create"}

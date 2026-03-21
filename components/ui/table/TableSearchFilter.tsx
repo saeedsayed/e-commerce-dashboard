@@ -1,6 +1,6 @@
 "use client";
 import useTableFilter from "@/hooks/useTableFilter";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Circle, Flex, Float } from "@chakra-ui/react";
 import { SearchIcon, XIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
@@ -14,11 +14,13 @@ type Props = {
 
 const TableSearchFilter = ({ searchBy, placeholder }: Props) => {
   const params = useSearchParams();
-  const [inputVal, setInputVal] = useState<string>(params.get(searchBy) || "");
+  const [inputVal, setInputVal] = useState<string>(
+    params.get(`table_filter_${searchBy}`) || "",
+  );
   const timeOutId = useRef<NodeJS.Timeout | null>(null);
   const { handleSearch } = useTableFilter();
 
-  const filterIsActive = !!params.get(searchBy);
+  const filterIsActive = !!params.get(`table_filter_${searchBy}`);
 
   useEffect(() => {
     const autoSearch = (newSearchParams: {
@@ -46,17 +48,24 @@ const TableSearchFilter = ({ searchBy, placeholder }: Props) => {
     >
       <Flex
         border={"1px solid"}
-        borderColor={"border.emphasized"}
+        borderColor={filterIsActive ? "blue.emphasized" : "border.emphasized"}
         rounded={"sm"}
         alignItems={"center"}
+        position={"relative"}
         className="has-focus:border-transparent has-focus:ring-2"
       >
+        {filterIsActive && (
+          <Float zIndex={9}>
+            <Circle size="3" bg="blue.emphasized" />
+          </Float>
+        )}
         <Input
           type="search"
           name="search"
           value={inputVal}
           border={"none"}
           h={8}
+          minW={24}
           _focus={{ outline: "none" }}
           placeholder={placeholder || "Search..."}
           onChange={(e) => setInputVal(e.target.value)}

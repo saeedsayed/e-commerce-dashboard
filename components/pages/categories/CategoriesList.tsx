@@ -18,7 +18,7 @@ const CategoriesList = () => {
         data: ICategory[];
         result: number;
         // paginate: IPagination;
-      }>(`/categories?${params.toString()}`);
+      }>(`/categories`);
       return { data, result };
     },
   });

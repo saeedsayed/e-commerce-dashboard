@@ -19,7 +19,8 @@ const ShippingMethodsList = () => {
         // result: number;
         // paginate: IPagination;
       }>(
-        `/shipping?${!params.get("isActive") ? `isActive=all&` : ""}${params.toString()}`,
+        `/shipping?isActive=all&`,
+        // `/shipping?${!params.get("table_filter_isActive") ? `isActive=all&` : ""}`,
       );
       return { data };
     },

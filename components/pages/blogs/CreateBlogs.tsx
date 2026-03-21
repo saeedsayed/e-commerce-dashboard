@@ -40,15 +40,15 @@ const CreateBlogs = () => {
         onCancel={() => {
           setModalIsOpen(false);
         }}
-        title="Create a new product"
-        formId="createProductForm"
+        title="Create a new blog"
+        formId="createBlogForm"
         confirmText={isPending ? "Creating..." : "Create"}
         size="cover"
       >
         <CreateProductForm
           onSubmit={(data) => mutate(data)}
           isSubmitting={isPending}
-          formId="createProductForm"
+          formId="createBlogForm"
         />
       </Modal>
     </>

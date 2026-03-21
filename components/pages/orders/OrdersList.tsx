@@ -18,8 +18,7 @@ const OrdersList = () => {
         data: IOrder[];
         paginate: IPagination;
         result: number;
-      }>(`/orders?${params.toString()}`);
-      console.log("data", data);
+      }>(`/orders`);
       return { orders, result, paginate };
     },
   });

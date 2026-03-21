@@ -28,7 +28,7 @@ const TableRangeFilter = ({
     maxRange || 100,
   ]);
   const filterIsActive =
-    !!params.get(`max${filterBy}`) || !!params.get(`min${filterBy}`);
+    !!params.get(`table_filter_max${filterBy}`) || !!params.get(`table_filter_min${filterBy}`);
   const { handleSearch: search } = useTableFilter();
   const handleSearch = (searchValues: number[]) => {
     search([
@@ -78,8 +78,8 @@ const TableRangeFilter = ({
               onRangeChangeEnd={(v) => handleSearch(v as number[])}
               onChange={(v) => setRangeValues(v as number[])}
               defaultValue={[
-                Number(params.get(`min${filterBy}`)) || 0,
-                Number(params.get(`max${filterBy}`)) || maxRange || 100,
+                Number(params.get(`table_filter_min${filterBy}`)) || 0,
+                Number(params.get(`table_filter_max${filterBy}`)) || maxRange || 100,
               ]}
               step={step}
               //   onMouseUp={(v) => handleSearch(v as number[])}

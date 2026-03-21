@@ -53,15 +53,15 @@ const EditCategory = ({ category }: { category: ICategory }) => {
           setModalIsOpen(false);
         }}
         onConfirm={() => {}}
-        title="Update a new product"
-        formId="updateProductForm"
+        title="Update category"
+        formId="updateCategoryForm"
         // classes="w-lg"
         confirmText={isPending ? "Updating..." : "Update"}
       >
         <CategoryForm
           onSubmit={(data) => mutate(data)}
           isSubmitting={isPending}
-          formId="updateProductForm"
+          formId="updateCategoryForm"
           initialValues={{
             name: category?.name || "",
             description: category?.description || "",

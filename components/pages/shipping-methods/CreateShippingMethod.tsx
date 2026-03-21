@@ -41,7 +41,7 @@ const CreateShippingMethod = () => {
           setModalIsOpen(false);
         }}
         onConfirm={() => {}}
-        title="Create a new category"
+        title="Create a new shipping method"
         formId="createShippingMethodForm"
         classes="w-lg"
         confirmText={isPending ? "Creating..." : "Create"}

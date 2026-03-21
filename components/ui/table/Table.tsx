@@ -2,18 +2,27 @@
 
 import React, { useMemo, useState } from "react";
 import Pagination from "../Pagination";
-import Search from "./TableFilter";
-import { AArrowDown, AArrowUp, MoveVertical, RefreshCcw } from "lucide-react";
+import {
+  AArrowDown,
+  AArrowUp,
+  InfoIcon,
+  MoveVertical,
+  RefreshCcw,
+} from "lucide-react";
 import {
   Box,
   Button,
   Center,
   Table as ChakraTable,
+  EmptyState,
+  List,
   Span,
   Spinner,
+  VStack,
 } from "@chakra-ui/react";
 import { Tooltip } from "../tooltip";
 import { useQueryClient } from "@tanstack/react-query";
+import TableFilter from "./TableFilter";
 
 export type TColumn<T> = {
   id: string;
@@ -226,7 +235,7 @@ function Table<T = Record<string, unknown>>({
                 return (
                   <ChakraTable.ColumnHeader key={`${column.id}-filter`}>
                     {filterable ? (
-                      <Search
+                      <TableFilter
                         filterBy={column.accessorKey}
                         placeholder={`Filter ${column.header}`}
                         filterType={column.filterType}
@@ -246,7 +255,23 @@ function Table<T = Record<string, unknown>>({
                   colSpan={columns.length + 2}
                   className="text-center"
                 >
-                  No data available
+                  <EmptyState.Root>
+                    <EmptyState.Content>
+                      <EmptyState.Indicator>
+                        <InfoIcon />
+                      </EmptyState.Indicator>
+                      <VStack textAlign="center">
+                        <EmptyState.Title>No results found</EmptyState.Title>
+                        <EmptyState.Description>
+                          Try adjusting your search
+                        </EmptyState.Description>
+                      </VStack>
+                      <List.Root variant="marker">
+                        <List.Item>Try removing filters</List.Item>
+                        <List.Item>Try different keywords</List.Item>
+                      </List.Root>
+                    </EmptyState.Content>
+                  </EmptyState.Root>
                 </ChakraTable.Cell>
               </ChakraTable.Row>
             ) : (
@@ -296,7 +321,11 @@ function Table<T = Record<string, unknown>>({
               : pageSize * currentPage}{" "}
             of {numberOfAllItems} items
           </p>
-          <Pagination currentPage={currentPage} pagesCount={pagesCount} />
+          <Pagination
+            currentPage={currentPage}
+            pagesCount={pagesCount}
+            prefixName="table_pagination_"
+          />
         </div>
       )}
     </Box>

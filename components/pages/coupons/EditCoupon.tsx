@@ -66,15 +66,15 @@ const EditCoupon = ({ coupon }: { coupon: ICoupon }) => {
           setModalIsOpen(false);
         }}
         onConfirm={() => {}}
-        title="Update a new product"
-        formId="updateProductForm"
+        title="Update coupon"
+        formId="updateCouponForm"
         // classes="w-lg"
         confirmText={isPending ? "Updating..." : "Update"}
       >
         <CouponForm
           onSubmit={(data) => mutate(data)}
           isSubmitting={isPending}
-          formId="updateProductForm"
+          formId="updateCouponForm"
           initialValues={{
             code: coupon?.code,
             description: coupon?.description,

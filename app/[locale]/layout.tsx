@@ -42,16 +42,16 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReactQueryProvider>
-          <ChakraUiProvider>
-            <NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <ReactQueryProvider>
+            <ChakraUiProvider>
               <AuthProvider>
                 <Toaster position="bottom-center" />
                 {children}
               </AuthProvider>
-            </NextIntlClientProvider>
-          </ChakraUiProvider>
-        </ReactQueryProvider>
+            </ChakraUiProvider>
+          </ReactQueryProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

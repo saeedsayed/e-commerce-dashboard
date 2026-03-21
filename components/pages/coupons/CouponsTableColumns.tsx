@@ -5,9 +5,8 @@ import ShippingMethodTableActions from "./CouponsTableActions";
 import { InfinityIcon } from "lucide-react";
 
 export const columns: TColumn<ICoupon>[] = [
-  // { id: "id", header: "id", accessorKey: "_id" },
-  { id: "code", header: "Code", accessorKey: "code" },
-  { id: "description", header: "Description", accessorKey: "description" },
+  { id: "code", header: "Code", accessorKey: "code", sortable: false },
+  // { id: "description", header: "Description", accessorKey: "description", sortable:false },
   {
     id: "discountValue",
     header: "Discount Value",
@@ -72,9 +71,16 @@ export const columns: TColumn<ICoupon>[] = [
   },
   {
     id: "usedCount",
-    header: "Used Count",
+    header: "Used",
     accessorKey: "usedCount",
     filterType: "range",
+    cell(row: ICoupon) {
+      return (
+        <Badge colorPalette={row.usedCount >= row.usageLimit ? "red" : "green"}>
+          {row.usedCount}
+        </Badge>
+      );
+    },
   },
   {
     id: "usageLimit",
@@ -88,9 +94,13 @@ export const columns: TColumn<ICoupon>[] = [
     accessorKey: "startDate",
     cell(row: ICoupon) {
       return (
-        <Text>
+        <Badge
+          colorPalette={
+            new Date(row?.startDate) > new Date(Date.now()) ? "red" : "green"
+          }
+        >
           {new Date(row?.startDate.toString()).toISOString().slice(0, 10)}
-        </Text>
+        </Badge>
       );
     },
   },
@@ -100,9 +110,13 @@ export const columns: TColumn<ICoupon>[] = [
     accessorKey: "endDate",
     cell(row: ICoupon) {
       return (
-        <Text>
+        <Badge
+          colorPalette={
+            new Date(row?.endDate) < new Date(Date.now()) ? "red" : "green"
+          }
+        >
           {new Date(row?.endDate.toString()).toISOString().slice(0, 10)}
-        </Text>
+        </Badge>
       );
     },
   },

@@ -18,11 +18,11 @@ const CouponsTableActions = ({ coupon }: { coupon: ICoupon }) => {
     mutationFn: updateCouponStatus,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["coupon"] });
-      toast.success("Coupon method deleted successfully");
+      toast.success("Coupon status updated successfully");
     },
     onError: (err) => {
       console.log("err", err);
-      toast.error("failed to delete coupon! try again");
+      toast.error("failed to updated coupon status! try again");
     },
   });
   return (

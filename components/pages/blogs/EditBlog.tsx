@@ -74,8 +74,8 @@ const EditBlog = ({ blogId }: { blogId: string }) => {
           setModalIsOpen(false);
         }}
         onConfirm={() => {}}
-        title="Update a new product"
-        formId="updateProductForm"
+        title="Update blog"
+        formId="updateBlogForm"
         size="cover"
         confirmText={isPending ? "Updating..." : "Update"}
       >
@@ -89,7 +89,7 @@ const EditBlog = ({ blogId }: { blogId: string }) => {
           <ProductForm
             onSubmit={(data) => mutate(data)}
             isSubmitting={isPending}
-            formId="updateProductForm"
+            formId="updateBlogForm"
             initialValues={{
               title: blog?.title || "",
               thumbnail: blog?.thumbnail || "",

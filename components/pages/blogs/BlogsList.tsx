@@ -16,7 +16,7 @@ const BlogsList = () => {
         data: { data: blogs },
       } = await axiosInstance<{
         data: IArticle[];
-      }>(`/blogs?${params.toString()}`);
+      }>(`/blogs`);
       return { blogs };
     },
   });

@@ -57,15 +57,15 @@ const EditShippingMethod = ({
           setModalIsOpen(false);
         }}
         onConfirm={() => {}}
-        title="Update a new product"
-        formId="updateProductForm"
+        title="Update shipping method"
+        formId="updateShippingMethodForm"
         // classes="w-lg"
         confirmText={isPending ? "Updating..." : "Update"}
       >
         <ShippingMethodForm
           onSubmit={(data) => mutate(data)}
           isSubmitting={isPending}
-          formId="updateProductForm"
+          formId="updateShippingMethodForm"
           initialValues={{
             name: shippingMethod?.name || "",
             description: shippingMethod?.description || "",

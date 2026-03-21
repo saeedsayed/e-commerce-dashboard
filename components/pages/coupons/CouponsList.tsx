@@ -18,9 +18,7 @@ const CouponsList = () => {
         data: ICoupon[];
         result: number;
         paginate: IPagination;
-      }>(
-        `/coupon?${!params.get("isActive") ? `isActive=all&` : ""}${params.toString()}`,
-      );
+      }>(`/coupon`);
       return { data, paginate, result };
     },
   });

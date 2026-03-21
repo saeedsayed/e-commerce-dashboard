@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Boxes,
-  HandHelping,
   Home,
   Images,
   LucideProps,
@@ -9,6 +8,7 @@ import {
   Package,
   PackagePlus,
   Settings,
+  ShoppingCart,
   TicketPercent,
   Truck,
   Users,
@@ -44,7 +44,7 @@ export const DashboardRoutes: TDashboardRoute[] = [
   {
     localKey: "orders",
     path: "/orders",
-    icon: HandHelping,
+    icon: ShoppingCart,
   },
   {
     localKey: "shipping_methods",

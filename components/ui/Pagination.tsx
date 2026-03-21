@@ -8,17 +8,23 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 type Props = {
   currentPage: number;
   pagesCount: number;
+  prefixName?: string;
   onPageChange?: (page: number) => void;
 };
 
-const Pagination = ({ currentPage, pagesCount, onPageChange }: Props) => {
+const Pagination = ({
+  currentPage,
+  pagesCount,
+  prefixName = "",
+  onPageChange,
+}: Props) => {
   const router = useRouter();
   const pathName = usePathname();
   const params = useSearchParams();
   const current = new URLSearchParams(Array.from(params.entries()));
 
   const handlePageChange = (page: number) => {
-    current.set("page", String(page));
+    current.set(prefixName + "page", String(page));
     router.push(`${pathName}?${current.toString()}`);
     onPageChange?.(page);
   };

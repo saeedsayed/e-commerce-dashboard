@@ -18,7 +18,7 @@ const ProductList = () => {
         data: IProduct[];
         results: number;
         paginate: IPagination;
-      }>(`/products?${params.toString()}`);
+      }>(`/products`);
       return { data, results, paginate };
     },
   });
