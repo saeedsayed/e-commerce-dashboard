@@ -1,31 +1,35 @@
 import { Edit, EyeIcon } from "lucide-react";
-import { Button, HStack } from "@chakra-ui/react";
+import { Button, HStack, Span, Spinner, Switch } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Link } from "@/i18n/navigation";
+import { IProduct } from "@/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axiosInstance from "@/utils/axiosInstance";
+import toast from "react-hot-toast";
 
-const ProductTableActions = ({ productId }: { productId: string }) => {
-  // const queryClient = useQueryClient();
-  // const updateShippingMethodStatus = async (newStatus: boolean) => {
-  //   await axiosInstance.put(`/shipping/${shippingMethod._id}`, {
-  //     isActive: newStatus,
-  //   });
-  // };
-  // const { mutate: handleStatusSwitch, isPending } = useMutation({
-  //   mutationFn: updateShippingMethodStatus,
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: ["shipping"] });
-  //     toast.success("Shipping method deleted successfully");
-  //   },
-  //   onError: (err) => {
-  //     console.log("err", err);
-  //     toast.error("failed to delete shipping method! try again");
-  //   },
-  // });
+const ProductTableActions = ({ product }: { product: IProduct }) => {
+  const queryClient = useQueryClient();
+  const updateShippingMethodStatus = async (newStatus: boolean) => {
+    await axiosInstance.put(`/products/${product._id}`, {
+      isActive: newStatus,
+    });
+  };
+  const { mutate: handleStatusSwitch, isPending } = useMutation({
+    mutationFn: updateShippingMethodStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast.success("product status updated successfully");
+    },
+    onError: (err) => {
+      console.log("err", err);
+      toast.error("failed to updated product status! try again");
+    },
+  });
   return (
     <>
       <HStack gap={2}>
         <Tooltip content="View Detail" showArrow>
-          <Link href={`products/${productId}`}>
+          <Link href={`products/${product._id}`}>
             <Button
               size={"xs"}
               variant={"outline"}
@@ -37,7 +41,7 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
           </Link>
         </Tooltip>
         <Tooltip content="Edit" showArrow>
-          <Link href={`products/edit/${productId}`}>
+          <Link href={`products/${product._id}/edit`}>
             <Button
               size={"xs"}
               variant={"outline"}
@@ -48,7 +52,7 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
             </Button>
           </Link>
         </Tooltip>
-        {/* <Tooltip content="Switch Status" showArrow>
+        <Tooltip content="Switch Status" showArrow>
           <Span>
             <Switch.Root
               checked={product?.isActive}
@@ -58,7 +62,7 @@ const ProductTableActions = ({ productId }: { productId: string }) => {
               {isPending ? <Spinner /> : <Switch.Control />}
             </Switch.Root>
           </Span>
-        </Tooltip> */}
+        </Tooltip>
       </HStack>
     </>
   );

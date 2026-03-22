@@ -55,11 +55,20 @@ const EditProduct = ({ productId }: { productId: string }) => {
             title: product?.title || "",
             discount: product?.discount,
             price: product?.price || 0,
+            cost: product?.cost || 0,
             description: product?.description || "",
             thumbnail: product?.thumbnail || "",
             category: product?.category || [],
             stock: product?.stock || 0,
             images: product?.images,
+            sizes: product?.sizes,
+            weight: product?.weight,
+            dimensions: {
+              length: product?.dimensions?.length,
+              width: product?.dimensions?.width,
+              height: product?.dimensions?.height,
+              depth: product?.dimensions?.depth,
+            },
           }}
         />
       )}

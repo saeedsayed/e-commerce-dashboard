@@ -18,7 +18,7 @@ const ProductList = () => {
         data: IProduct[];
         results: number;
         paginate: IPagination;
-      }>(`/products`);
+      }>(`/products?isActive=all`);
       return { data, results, paginate };
     },
   });

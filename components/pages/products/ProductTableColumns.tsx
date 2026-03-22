@@ -76,7 +76,11 @@ export const columns: TColumn<IProduct>[] = [
     filterable: false,
     cell: (row: IProduct) => (
       <Center>
-        <Badge variant={"subtle"} colorPalette={row.reviewsCount?"blue":"red"} mx={"auto"}>
+        <Badge
+          variant={"subtle"}
+          colorPalette={row.reviewsCount ? "blue" : "red"}
+          mx={"auto"}
+        >
           {row.reviewsCount || "no Reviews"}
         </Badge>
       </Center>
@@ -100,13 +104,25 @@ export const columns: TColumn<IProduct>[] = [
         <RatingGroup.Control />
       </RatingGroup.Root>
     ),
-  },  
+  },
+  {
+    id: "isActive",
+    header: "State",
+    accessorKey: "isActive",
+    cell(row: IProduct) {
+      return (
+        <Badge colorPalette={row.isActive ? "green" : "red"}>
+          {row.isActive ? "Activate" : "Inactive"}
+        </Badge>
+      );
+    },
+  },
   {
     id: "actions",
     header: "Actions",
     accessorKey: "_id",
     sortable: false,
     filterable: false,
-    cell: (row: IProduct) => <ProductTableActions productId={row._id} />,
+    cell: (row: IProduct) => <ProductTableActions product={row} />,
   },
 ];

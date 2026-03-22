@@ -1,27 +1,30 @@
 import ThemeAndLangButton from "../common/Theme&LangButton";
-import { Box, Flex } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import RoutesBreadcrumb from "../ui/RoutesBreadcrumb";
 import ShowInFullScreen from "../ui/ShowInFullScreen";
 
 const Navbar = () => {
   return (
-    <Flex
+    <Grid
       as={"nav"}
       bg={"bg.subtle"}
       borderBottom={"1px solid"}
       borderColor={"border.emphasized"}
       padding={"2"}
-      justify={"space-between"}
-      align={"center"}
+      templateColumns="repeat(3, 1fr)"
+      // justify={"space-between"}
+      alignItems={"center"}
     >
-      <Flex align={"center"} gap={3}>
+      <GridItem>
         <RoutesBreadcrumb />
-      </Flex>
+      </GridItem>
+      <GridItem textAlign={"center"}>
         <ShowInFullScreen />
-      <Box className="ms-auto">
+      </GridItem>
+      <GridItem display={"flex"} justifyContent={"end"}>
         <ThemeAndLangButton />
-      </Box>
-    </Flex>
+      </GridItem>
+    </Grid>
   );
 };
 

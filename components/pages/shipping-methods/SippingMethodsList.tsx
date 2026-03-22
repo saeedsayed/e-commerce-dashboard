@@ -18,10 +18,7 @@ const ShippingMethodsList = () => {
         data: IShippingMethod[];
         // result: number;
         // paginate: IPagination;
-      }>(
-        `/shipping?isActive=all&`,
-        // `/shipping?${!params.get("table_filter_isActive") ? `isActive=all&` : ""}`,
-      );
+      }>(`/shipping?isActive=all`);
       return { data };
     },
   });
