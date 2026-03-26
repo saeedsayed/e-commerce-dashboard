@@ -78,7 +78,7 @@ const CategoryForm = ({
             <div className="size-32 relative">
               {" "}
               <Image
-                src={getValues("image")}
+                src={getValues("image")||""}
                 alt="image"
                 fill
                 className="object-contain"
