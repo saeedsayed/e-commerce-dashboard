@@ -1,7 +1,7 @@
 "use client";
 import useTableFilter from "@/hooks/useTableFilter";
 import { Button, Circle, Flex, Float } from "@chakra-ui/react";
-import { SearchIcon, XIcon } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import Input from "../Input";
@@ -18,7 +18,7 @@ const TableSearchFilter = ({ searchBy, placeholder }: Props) => {
     params.get(`table_filter_${searchBy}`) || "",
   );
   const timeOutId = useRef<NodeJS.Timeout | null>(null);
-  const { handleSearch } = useTableFilter();
+  const { handleFilter } = useTableFilter();
 
   const filterIsActive = !!params.get(`table_filter_${searchBy}`);
 
@@ -28,7 +28,7 @@ const TableSearchFilter = ({ searchBy, placeholder }: Props) => {
       query: string;
     }) => {
       timeOutId.current = setTimeout(() => {
-        handleSearch([newSearchParams]);
+        handleFilter([newSearchParams]);
       }, 1400);
     };
 
@@ -43,7 +43,7 @@ const TableSearchFilter = ({ searchBy, placeholder }: Props) => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        handleSearch([{ searchBy, query: inputVal }]);
+        handleFilter([{ searchBy, query: inputVal }]);
       }}
     >
       <Flex
@@ -70,16 +70,6 @@ const TableSearchFilter = ({ searchBy, placeholder }: Props) => {
           placeholder={placeholder || "Search..."}
           onChange={(e) => setInputVal(e.target.value)}
         />
-        {filterIsActive && (
-          <Button
-            variant={"ghost"}
-            size={"xs"}
-            type="button"
-            onClick={() => setInputVal("")}
-          >
-            <XIcon />
-          </Button>
-        )}
         <Button variant={"ghost"} size={"xs"}>
           <SearchIcon />
         </Button>

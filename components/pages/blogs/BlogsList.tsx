@@ -1,6 +1,6 @@
 "use client";
 import Table from "@/components/ui/table/Table";
-import { IArticle } from "@/types";
+import { IArticle, IPagination } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -13,11 +13,13 @@ const BlogsList = () => {
     queryKey: ["blogs"],
     queryFn: async () => {
       const {
-        data: { data: blogs },
+        data: { data: blogs, results, paginate },
       } = await axiosInstance<{
         data: IArticle[];
+        results: number;
+        paginate: IPagination;
       }>(`/blogs`);
-      return { blogs };
+      return { blogs, results, paginate };
     },
   });
 
@@ -32,10 +34,10 @@ const BlogsList = () => {
         isLoading={isLoading}
         isRefresh={isRefetching}
         data={data?.blogs || []}
-        currentPage={1}
-        pagesCount={1}
-        numberOfAllItems={data?.blogs.length || 0}
-        pageSize={data?.blogs?.length || 0}
+        currentPage={data?.paginate?.currentPage || 1}
+        pagesCount={data?.paginate?.totalPages || 1}
+        numberOfAllItems={data?.results || 0}
+        pageSize={data?.paginate?.limit || 0}
         showRefreshBtn
         queryKeys={["blogs"]}
       />

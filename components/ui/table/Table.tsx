@@ -23,6 +23,7 @@ import {
 import { Tooltip } from "../tooltip";
 import { useQueryClient } from "@tanstack/react-query";
 import TableFilter from "./TableFilter";
+import useTableFilter from "@/hooks/useTableFilter";
 
 export type TColumn<T> = {
   id: string;
@@ -97,6 +98,8 @@ function Table<T = Record<string, unknown>>({
     direction: SortDirection;
   } | null>(null);
 
+  const { removeAllFilters, activeFilters } = useTableFilter();
+
   const queryClient = useQueryClient();
 
   const handleRefresh = (arrOfQueryKey: string[]) => {
@@ -150,7 +153,7 @@ function Table<T = Record<string, unknown>>({
       cursor={isRefresh ? "progress !important" : "default"}
     >
       <Box textAlign={"end"}>
-        {sortConfig && (
+        {(sortConfig || activeFilters.length > 0) && (
           <Button
             type="button"
             transition={"all .3s"}
@@ -159,7 +162,9 @@ function Table<T = Record<string, unknown>>({
             me={3}
             onClick={() => {
               setSortConfig(null);
+              removeAllFilters()
             }}
+            
           >
             Reset filters
           </Button>

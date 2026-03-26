@@ -37,6 +37,7 @@ type Props = {
   onSubmit: SubmitHandler<TCreateProductForm>;
   isSubmitting: boolean;
   initialValues?: TCreateProductForm;
+  onCancel?: () => void;
 };
 
 type TChoseFileMode = "thumbnail" | "images" | null;
@@ -75,7 +76,12 @@ const combineErrMes = (...messages: (string | undefined)[]): string =>
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-const ProductForm = ({ onSubmit, isSubmitting, initialValues }: Props) => {
+const ProductForm = ({
+  onSubmit,
+  isSubmitting,
+  initialValues,
+  onCancel,
+}: Props) => {
   // ── Local state ──────────────────────────────────────────────────────────
   const [choseFileModalIsOpen, setChoseFileModalIsOpen] = useState(false);
   const [choseFileMode, setChoseFileMode] = useState<TChoseFileMode>(null);
@@ -499,9 +505,21 @@ const ProductForm = ({ onSubmit, isSubmitting, initialValues }: Props) => {
             </Grid>
 
             {/* Submit */}
-            <Button loading={isSubmitting} type="submit" w="xs" ms="auto">
-              {initialValues ? "Update" : "Create"}
-            </Button>
+            <HStack>
+              {initialValues && (
+                <Button
+                  variant={"outline"}
+                  type="button"
+                  w="xs"
+                  onClick={onCancel}
+                >
+                  Cancel
+                </Button>
+              )}
+              <Button loading={isSubmitting} type="submit" w="xs" ms="auto">
+                {initialValues ? "Update" : "Create"}
+              </Button>
+            </HStack>
           </form>
           {/* </Box> */}
         </GridItem>

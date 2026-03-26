@@ -4,9 +4,10 @@ export const createCategorySchema = Z.object({
     .min(2, "name must be at least 2 characters")
     .max(100),
   description: Z.string("description is required")
-    .min(10, "description must be at least 10 characters")
-    .max(500),
-  image: Z.string("thumbnail is required").url("thumbnail is required"),
+    // .min(10, "description must be at least 10 characters")
+    .max(500)
+    .optional(),
+  image: Z.string("thumbnail is required").url("thumbnail is required").optional(),
 });
 
 export type TCreateCategorySchema = Z.infer<typeof createCategorySchema>;
