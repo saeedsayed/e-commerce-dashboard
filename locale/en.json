@@ -19,7 +19,8 @@
     "customers": "Customers",
     "media_library": "Media Library",
     "statistics": "Statistics",
-    "settings": "Settings"
+    "settings": "Settings",
+    "landing_page_content":"Landing page content"
   },
   "Footer": {
     "rights_reserved": "All rights reserved.",

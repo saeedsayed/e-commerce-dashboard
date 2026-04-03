@@ -17,7 +17,7 @@ const CreateFolder = () => {
   const createFolder = async () => {
     try {
       await axiosInstance.post("/media-library/folders", {
-        folderTitle: folderName,
+        folderName: folderName,
       });
     } catch (err) {
       throw err;

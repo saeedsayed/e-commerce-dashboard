@@ -5,9 +5,10 @@ import {
   Images,
   LucideProps,
   Newspaper,
-  Package,
   PackagePlus,
+  PlaneLanding,
   Settings,
+  Shirt,
   ShoppingCart,
   TicketPercent,
   Truck,
@@ -32,7 +33,7 @@ export const DashboardRoutes: TDashboardRoute[] = [
   {
     localKey: "products",
     path: "/products",
-    icon: Package,
+    icon: Shirt,
     subRotes: [
       {
         localKey: "create_product",
@@ -60,6 +61,11 @@ export const DashboardRoutes: TDashboardRoute[] = [
     localKey: "categories",
     path: "/categories",
     icon: Boxes,
+  },
+  {
+    localKey: "landing_page_content",
+    path: "/landing-content",
+    icon: PlaneLanding,
   },
   {
     localKey: "media_library",

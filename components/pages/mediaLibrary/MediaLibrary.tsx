@@ -1,5 +1,5 @@
 "use client";
-import  { useState } from "react";
+import { useState } from "react";
 import CreateFolder from "./CreateFolder";
 import FolderList from "./FolderList";
 import FolderMedia from "./FolderMedia";
@@ -37,7 +37,7 @@ const MediaLibrary = ({ onChoseMedia, choseMediaMode }: Props) => {
         <Splitter.Panel id="b" ps={2} pt={4}>
           {!!selectedFolder ? (
             <FolderMedia
-              folderId={selectedFolder?._id}
+              folderName={selectedFolder?.name}
               onSelectFile={onChoseMedia}
               selectMode={choseMediaMode}
             />

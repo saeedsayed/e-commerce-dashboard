@@ -24,13 +24,13 @@ const FolderList = ({ onSelectFolder, selectedFolder }: props) => {
       const {
         data: { data },
       } = await axiosInstance.get<{
-        data: { folders: IFolder[] };
+        data: IFolder[];
       }>("/media-library/folders");
-      return data.folders;
+      return data;
     },
   });
-  const deleteFolder = async (folderId: string) => {
-    await axiosInstance.delete(`/media-library/folders/${folderId}`);
+  const deleteFolder = async (folderName: string) => {
+    await axiosInstance.delete(`/media-library/folders/${folderName}`);
   };
   const { mutate: deleteDirector, isPending } = useMutation({
     mutationFn: deleteFolder,
@@ -69,11 +69,15 @@ const FolderList = ({ onSelectFolder, selectedFolder }: props) => {
             alignItems={"center"}
             _hover={{ bg: "bg.emphasized" }}
             p={2}
-            bg={selectedFolder?._id === folder?._id ? "bg.muted" : ""}
-            className={` ${selectedFolder?._id === folder._id ? "bg-base-300" : ""}`}
-            key={folder._id}
+            bg={
+              selectedFolder?.external_id === folder.external_id
+                ? "bg.muted"
+                : ""
+            }
+            className={` ${selectedFolder?.external_id === folder.external_id ? "bg-base-300" : ""}`}
+            key={folder.external_id}
           >
-            <Tooltip content={folder.folderTitle} showArrow>
+            <Tooltip content={folder.name} showArrow>
               <button
                 onClick={() => {
                   onSelectFolder(folder);
@@ -84,7 +88,7 @@ const FolderList = ({ onSelectFolder, selectedFolder }: props) => {
                   <Folder className="size-10 lg:size-10" />
                 </div>
                 <div>
-                  <Text textAlign={"start"}>{folder.folderTitle}</Text>
+                  <Text textAlign={"start"}>{folder.name}</Text>
                   <Text opacity={0.5} textAlign={"start"}>
                     items: 0
                   </Text>
@@ -98,7 +102,7 @@ const FolderList = ({ onSelectFolder, selectedFolder }: props) => {
                 _hover={{ color: "red.border" }}
                 onClick={() => {
                   setIsDelModOpen(true);
-                  setTargetDelFolder(folder._id);
+                  setTargetDelFolder(folder.name);
                 }}
               >
                 <Trash />

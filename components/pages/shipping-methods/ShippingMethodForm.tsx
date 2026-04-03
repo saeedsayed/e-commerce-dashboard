@@ -38,7 +38,6 @@ const ShippingMethodForm = ({
   });
   return (
     <>
-      {/* create product form modal */}
       <form
         onSubmit={handleSubmit(onSubmit)}
         id={formId}
@@ -46,8 +45,8 @@ const ShippingMethodForm = ({
       >
         <Input
           id="name"
-          label={"Category name"}
-          placeholder={"enter the category name"}
+          label={"Shipping method name"}
+          placeholder={"enter the shipping method name"}
           err={!!errors.name}
           errMes={errors.name?.message}
           register={register("name")}
@@ -55,8 +54,8 @@ const ShippingMethodForm = ({
         />
         <Textarea
           id="description"
-          label={"product description"}
-          placeholder={"enter the product description"}
+          label={"description"}
+          placeholder={"enter the shipping method description"}
           err={!!errors.description}
           errMes={errors.description?.message}
           register={register("description")}

@@ -1,7 +1,7 @@
 import React from "react";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 const page = async ({ params }: Props) => {

@@ -548,7 +548,7 @@ const ProductForm = ({
               choseFileMode === "thumbnail" ? "single" : "multiple"
             }
             onChoseMedia={(media) =>
-              setSelectedFiles(media.map((m) => m.fileUrl))
+              setSelectedFiles(media.map((m) => m.secure_url))
             }
           />
         </div>

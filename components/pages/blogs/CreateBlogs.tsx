@@ -40,6 +40,7 @@ const CreateBlogs = () => {
         onCancel={() => {
           setModalIsOpen(false);
         }}
+        onConfirm={()=>{}}
         title="Create a new blog"
         formId="createBlogForm"
         confirmText={isPending ? "Creating..." : "Create"}

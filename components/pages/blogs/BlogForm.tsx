@@ -160,7 +160,7 @@ const BlogForm = ({ onSubmit, isSubmitting, initialValues, formId }: Props) => {
           <MediaLibrary
             choseMediaMode={"single"}
             onChoseMedia={(media) => {
-              setSelectedFiles(media.map((m) => m.fileUrl));
+              setSelectedFiles(media.map((m) => m.secure_url));
             }}
           />
         </div>

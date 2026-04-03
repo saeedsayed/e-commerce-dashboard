@@ -19,3 +19,4 @@ export type { IOrder };
 export type { IAddress };
 export type { IPagination } from "./pagination.type";
 export type { IFile, IFolder, IFolderWithFiles } from "./mediaLibrary.type";
+export type { ISales } from "./sales.type";

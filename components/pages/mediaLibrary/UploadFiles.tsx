@@ -10,10 +10,10 @@ import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
 
 type Props = {
-  folderId: string;
+  folderName: string;
 };
 
-const UploadFiles = ({ folderId }: Props) => {
+const UploadFiles = ({ folderName }: Props) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -25,7 +25,7 @@ const UploadFiles = ({ folderId }: Props) => {
     });
     try {
       await axiosInstance.post(
-        `/media-library/folders/${folderId}/files`,
+        `/media-library/folders/${folderName}/files`,
         formData,
         {
           headers: {
@@ -48,7 +48,7 @@ const UploadFiles = ({ folderId }: Props) => {
       toast.success("Files uploaded successfully!");
       setUploadErr(null);
       setSelectedFiles([]);
-      queryClient.invalidateQueries({ queryKey: ["folderMedia", folderId] });
+      queryClient.invalidateQueries({ queryKey: ["folderMedia", folderName] });
     },
   });
   return (

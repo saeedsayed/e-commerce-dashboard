@@ -21,23 +21,23 @@ import {
 } from "@chakra-ui/react";
 
 type Props = {
-  folderId: string;
+  folderName: string;
   onSelectFile?: (files: IFile[]) => void;
   selectMode?: "multiple" | "single";
 };
 
-const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
+const FolderMedia = ({ folderName, onSelectFile, selectMode }: Props) => {
   const [selectedFiles, setSelectedFiles] = useState<IFile[]>([]);
   const [imagePreviewUrl, setImagePreviewURL] = useState<string | null>(null);
   const [isDelModOpen, setIsDelModOpen] = useState<boolean>(false);
 
   const { data, isLoading, isRefetching, refetch } = useQuery({
-    queryKey: ["folderMedia", folderId],
+    queryKey: ["folderMedia", folderName],
     queryFn: async () => {
       const { data } = await axiosInstance.get<{
-        data: { folder: IFolderWithFiles };
-      }>(`/media-library/folders/${folderId}`);
-      return data.data.folder;
+        data: IFolderWithFiles;
+      }>(`/media-library/folders/${folderName}`);
+      return data.data;
     },
   });
 
@@ -54,9 +54,9 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
   };
 
   const deleteMedia = async () => {
-    await axiosInstance.delete(`/media-library/folders/${folderId}/files`, {
+    await axiosInstance.delete(`/media-library/folders/${folderName}/files`, {
       data: {
-        fileIds: selectedFiles.map((file) => file._id),
+        fileIds: selectedFiles.map((file) => file.asset_id),
       },
     });
   };
@@ -91,7 +91,7 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
       >
         <h1 className="text-2xl font-bold mb-4">
           <span className="text-sm text-gray-600">Folder name:</span>{" "}
-          {data?.folderTitle}
+          {data?.folderName}
         </h1>
         <div className="flex items-center gap-1.5">
           {selectedFiles.length > 0 && (
@@ -110,20 +110,20 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
               )}
             </Button>
           )}
-          <UploadFiles folderId={folderId} />
+          <UploadFiles folderName={folderName} />
           <span className="text-sm text-gray-500">
             ({selectedFiles.length} selected)
           </span>
           <Checkbox.Root
             checked={
               !!selectedFiles.length &&
-              selectedFiles.length < (data?.files.length || 0)
+              selectedFiles.length < (data?.assets.length || 0)
                 ? "indeterminate"
-                : +selectedFiles.length === +(data?.files.length || 0)
+                : +selectedFiles.length === +(data?.assets.length || 0)
             }
             onCheckedChange={(e) => {
               if (e.checked) {
-                handleSelect(data?.files || []);
+                handleSelect(data?.assets || []);
               } else {
                 handleSelect([]);
               }
@@ -148,9 +148,9 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
         h={"calc(100% - 3rem)"}
         overflowY={"auto"}
       >
-        {data?.files.map((file) => (
+        {data?.assets.map((file) => (
           <GridItem
-            key={file._id}
+            key={file.asset_id}
             border="1px solid"
             borderColor={"border.emphasized"}
             h={"fit"}
@@ -163,12 +163,14 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
               top={2}
               className="end-2"
               color={"red.border"}
-              checked={selectedFiles.some((f) => f._id === file._id)}
+              checked={selectedFiles.some((f) => f.asset_id === file.asset_id)}
               onCheckedChange={(e) => {
                 if (!!e.checked) {
                   handleSelect([...selectedFiles, file]);
                 } else {
-                  handleSelect(selectedFiles.filter((f) => f._id !== file._id));
+                  handleSelect(
+                    selectedFiles.filter((f) => f.asset_id !== file.asset_id),
+                  );
                 }
               }}
             >
@@ -177,16 +179,16 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
             </Checkbox.Root>
 
             <Image
-              src={file.fileUrl}
-              alt={file.publicId}
+              src={file.secure_url}
+              alt={file.public_id}
               width={500}
               height={500}
               // className="w-full h-full object-contain rounded m-autos "
-              onClick={() => setImagePreviewURL(file.fileUrl)}
+              onClick={() => setImagePreviewURL(file.secure_url)}
             />
             <Heading size={"sm"} mt={2}>
               <p className="font-semibold">
-                {new Date(file.createdAt).toLocaleString("en-US", {
+                {new Date(file.created_at).toLocaleString("en-US", {
                   weekday: "short",
                   year: "2-digit",
                   month: "short",
@@ -196,7 +198,7 @@ const FolderMedia = ({ folderId, onSelectFile, selectMode }: Props) => {
                 })}
               </p>
               <Text fontSize={"sm"} color={"GrayText"}>
-                {file.publicId}
+                {file.public_id}
               </Text>
             </Heading>
           </GridItem>
