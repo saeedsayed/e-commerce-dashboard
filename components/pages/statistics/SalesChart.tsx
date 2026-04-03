@@ -4,7 +4,7 @@ import Menu from "@/components/ui/Menu";
 import { ISales } from "@/types";
 import axiosInstance from "@/utils/axiosInstance";
 import { Chart, useChart } from "@chakra-ui/charts";
-import { AbsoluteCenter, Box, HStack, Spinner, Text } from "@chakra-ui/react";
+import { Box, HStack, Spinner, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import {

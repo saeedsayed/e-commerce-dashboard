@@ -62,7 +62,7 @@ const TextEditorInsertImage = () => {
             <Box h={"full"}>
               <MediaLibrary
                 choseMediaMode="single"
-                onChoseMedia={(m) => setImageUrl(m[0].fileUrl)}
+                onChoseMedia={(m) => setImageUrl(m[0].secure_url)}
               />
             </Box>
           </Tabs.Content>
